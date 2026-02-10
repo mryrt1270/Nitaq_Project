@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Timeline الطلبات</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mokhtarbsaid/saudi-font/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <h1>نِطاق - Timeline الطلبات</h1>
+    <hr>
+</header>
+
+<canvas id="timelineChart" width="600" height="300"></canvas>
+
+<script>
+    var requests = <%- JSON.stringify(requests || []) %>;
+
+    var labels = [];
+    var data = [];
+    var colors = [];
+
+    for (var i = 0; i < requests.length; i++) {
+        var r = requests[i];
+        labels.push(r.time || 'غير معروف');
+        if (r.result === '✅ قانوني') {
+            data.push(1);
+            colors.push('#000'); // أسود
+        } else if (r.result === '❌ غير قانوني') {
+            data.push(0);
+            colors.push('#333'); // رمادي داكن
+        } else {
+            data.push(0.5);
+            colors.push('#666'); // رمادي متوسط
+        }
+    }
+
+    var ctx = document.getElementById('timelineChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'حالة الطلب',
+                data: data,
+                backgroundColor: colors
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            if(context.raw === 1) return '✅ قانوني';
+                            if(context.raw === 0) return '❌ غير قانوني';
+                            if(context.raw === 0.5) return '⚠️ تحذير';
+                            return '';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                    ticks: {
+                        stepSize: 0.5,
+                        callback: function(value) {
+                            if (value === 1) return '✅ قانوني';
+                            if (value === 0) return '❌ غير قانوني';
+                            if (value === 0.5) return '⚠️ تحذير';
+                            return value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<a href="/">عودة للصفحة الرئيسية</a>
+</body>
+</html>

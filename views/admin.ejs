@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة الإدارة</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mokhtarbsaid/saudi-font/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <h1>لوحة الإدارة</h1>
+    <hr>
+</header>
+
+<h2>إضافة قاعدة جديدة</h2>
+<form action="/admin" method="POST">
+    <label>الجهة:</label>
+    <input type="text" name="entity" required>
+
+    <label>البيانات:</label>
+    <input type="text" name="data" required>
+
+    <label>مسموح؟</label>
+    <select name="allowed">
+        <option value="true">✅ قانوني</option>
+        <option value="false">❌ غير قانوني</option>
+    </select>
+
+    <button type="submit">إضافة القاعدة</button>
+</form>
+
+<h2>القواعد الحالية</h2>
+<ul>
+    <% rules.forEach(rule => { %>
+        <li><%= rule.entity %> - <%= rule.data %> : <%= rule.allowed ? '✅ قانوني' : '❌ غير قانوني' %></li>
+    <% }); %>
+</ul>
+
+<a href="/">عودة للصفحة الرئيسية</a>
+<a href="/timeline">عرض Timeline الطلبات</a>
+
+<script src="/script.js"></script>
+</body>
+</html>
