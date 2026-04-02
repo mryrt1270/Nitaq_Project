@@ -1,0 +1,280 @@
+[
+  {
+    "userEmail": "troky525@gmail.com",
+    "entity": "بنك الراجحي",
+    "sector": "حكومي",
+    "data": "عذر صحي",
+    "result": "مرفوض",
+    "allowed": false,
+    "note": "",
+    "time": "2/26/2026, 2:46:25 AM"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "entity": "وزارة التعليم",
+    "sector": "حكومي",
+    "data": "تعريف براتب",
+    "result": "مرفوض",
+    "allowed": false,
+    "note": "",
+    "time": "2/26/2026, 2:55:22 PM"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "entity": "مستشفى الحرس",
+    "sector": "صحي",
+    "data": "تقرير طبي",
+    "result": "مسموح",
+    "allowed": true,
+    "note": "",
+    "time": "2/26/2026, 3:19:47 PM"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "entity": "مستشفى الحرس",
+    "sector": "صحي",
+    "data": "تقرير طبي",
+    "result": "مسموح",
+    "allowed": true,
+    "note": "",
+    "time": "2/26/2026, 3:24:32 PM"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "entity": "ثانوية حمزة بن عبدالمطلب",
+    "sector": "تعليمي",
+    "data": "صورة من جواز السفر",
+    "result": "مرفوض",
+    "allowed": false,
+    "note": "",
+    "time": "2/26/2026, 3:39:54 PM"
+  },
+  {
+    "userEmail": "troky525@gmail.com",
+    "sector": "صحي",
+    "entity": "مستشفى الحرس",
+    "data": "تقرير طبي",
+    "allowed": true,
+    "time": "2/26/2026, 4:23:35 PM",
+    "verificationId": "NTQ-1772112215400",
+    "favorite": false
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "صحي",
+    "entity": "مستشفى الحرس",
+    "data": "تقرير طبي",
+    "allowed": true,
+    "time": "2/26/2026, 4:29:11 PM",
+    "verificationId": "NTQ-1772112551810",
+    "favorite": false
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "تعليمي",
+    "entity": "ثانوية حمزة بن عبدالمطلب",
+    "data": "عذر صحي",
+    "allowed": false,
+    "time": "2/26/2026, 4:34:10 PM",
+    "verificationId": "NTQ-1772112850893",
+    "favorite": false
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "صحي",
+    "entity": "مستشفى الحرس",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "2/28/2026, 12:08:47 AM",
+    "verificationId": "NTQ-1772226527968"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "صحي",
+    "entity": "مستشفى الحرس",
+    "data": "تقرير طبي",
+    "allowed": true,
+    "time": "2/28/2026, 12:09:33 AM",
+    "verificationId": "NTQ-1772226573151"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "تعليمي",
+    "entity": "ثانوية حمزة بن عبدالمطلب",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "3/4/2026, 2:22:25 AM",
+    "verificationId": "NTQ-1772580145631"
+  },
+  {
+    "userEmail": "mohandmutep@outlook.com",
+    "sector": "صحي",
+    "entity": "مستشفى الحرس",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "3/4/2026, 3:27:56 AM",
+    "verificationId": "NTQ-1772584076754"
+  },
+  {
+    "userEmail": "mohandmutep@outlook.com",
+    "sector": "مالي",
+    "entity": "بنك الراجحي",
+    "data": "كشف حساب",
+    "allowed": true,
+    "time": "3/4/2026, 3:28:13 AM",
+    "verificationId": "NTQ-1772584093322"
+  },
+  {
+    "userEmail": "mohandmutep@outlook.com",
+    "sector": "صحي",
+    "entity": "مستشفى الحرس",
+    "data": "عذر صحي",
+    "allowed": false,
+    "time": "3/4/2026, 3:28:41 AM",
+    "verificationId": "NTQ-1772584121539"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "صحي",
+    "entity": "مستشفى الحرس",
+    "data": "صورة من جواز السفر",
+    "allowed": false,
+    "time": "3/28/2026, 11:20:14 PM",
+    "verificationId": "NTQ-1774729214000"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "تعليمي",
+    "entity": "ثانوية حمزة بن عبدالمطلب",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "4/1/2026, 3:44:27 AM",
+    "verificationId": "NTQ-1775004267537"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "مالي",
+    "entity": "بنك الراجحي",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "4/1/2026, 3:44:42 AM",
+    "verificationId": "NTQ-1775004282783"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "صحي",
+    "entity": "د.سليمان الحبيب",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "4/1/2026, 10:07:43 AM",
+    "verificationId": "NTQ-1775027263532"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "صحي",
+    "entity": "د.سليمان الحبيب",
+    "data": "تأمين طبي",
+    "allowed": true,
+    "time": "4/1/2026, 10:08:03 AM",
+    "verificationId": "NTQ-1775027283429"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "مالي",
+    "entity": "بنك الاهلي",
+    "data": "تعريف براتب",
+    "allowed": true,
+    "time": "4/1/2026, 10:08:31 AM",
+    "verificationId": "NTQ-1775027311731"
+  },
+  {
+    "userEmail": "owner@nitaq.sa",
+    "sector": "مالي",
+    "entity": "بنك الانماء",
+    "data": "قرض",
+    "allowed": false,
+    "time": "4/1/2026, 10:11:59 AM",
+    "verificationId": "NTQ-1775027519498"
+  },
+  {
+    "userEmail": "trok112244@icloud.com",
+    "sector": "تعليمي",
+    "entity": "وزارة التعليم",
+    "data": "شهادة طالب منتظم",
+    "allowed": true,
+    "time": "4/1/2026, 11:23:20 AM",
+    "verificationId": "NTQ-1775031800978"
+  },
+  {
+    "userEmail": "trok112244@icloud.com",
+    "sector": "صحي",
+    "entity": "د.سليمان الحبيب",
+    "data": "تأمين طبي",
+    "allowed": true,
+    "time": "4/1/2026, 11:23:57 AM",
+    "verificationId": "NTQ-1775031837526"
+  },
+  {
+    "userEmail": "trok112244@icloud.com",
+    "sector": "صحي",
+    "entity": "د.سليمان الفقيه",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "4/1/2026, 11:24:15 AM",
+    "verificationId": "NTQ-1775031855759"
+  },
+  {
+    "userEmail": "trok112244@icloud.com",
+    "sector": "مالي",
+    "entity": "بنك الانماء",
+    "data": "قرض",
+    "allowed": true,
+    "time": "4/1/2026, 11:25:26 AM",
+    "verificationId": "NTQ-1775031926729"
+  },
+  {
+    "userEmail": "trok112244@icloud.com",
+    "sector": "مالي",
+    "entity": "بنك الانماء",
+    "data": "تعريف براتب",
+    "allowed": true,
+    "time": "4/1/2026, 11:25:48 AM",
+    "verificationId": "NTQ-1775031948215"
+  },
+  {
+    "userEmail": "alialrafae@gmail.com",
+    "sector": "تعليمي",
+    "entity": "وزارة التعليم",
+    "data": "تعريف براتب",
+    "allowed": false,
+    "time": "4/1/2026, 11:30:41 AM",
+    "verificationId": "NTQ-1775032241712"
+  },
+  {
+    "userEmail": "alialrafae@gmail.com",
+    "sector": "تعليمي",
+    "entity": "وزارة التعليم",
+    "data": "قرض",
+    "allowed": false,
+    "time": "4/1/2026, 11:31:37 AM",
+    "verificationId": "NTQ-1775032297183"
+  },
+  {
+    "userEmail": "alialrafae@gmail.com",
+    "sector": "مالي",
+    "entity": "بنك الراجحي",
+    "data": "قرض",
+    "allowed": true,
+    "time": "4/1/2026, 11:32:29 AM",
+    "verificationId": "NTQ-1775032349217"
+  },
+  {
+    "userEmail": "alialrafae@gmail.com",
+    "sector": "مالي",
+    "entity": "بنك الامارات",
+    "data": "تعريف براتب",
+    "allowed": true,
+    "time": "4/1/2026, 11:34:14 AM",
+    "verificationId": "NTQ-1775032454122"
+  }
+]

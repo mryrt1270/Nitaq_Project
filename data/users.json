@@ -1,0 +1,99 @@
+[
+  {
+    "name": "سعد",
+    "email": "troky525@gmail.com",
+    "password": "1122",
+    "role": "user",
+    "banned": false,
+    "permissions": [],
+    "promotedAt": "2/26/2026, 12:43:15 AM",
+    "lastLogin": "2/26/2026, 4:22:27 PM",
+    "loginCount": 5,
+    "achievements": []
+  },
+  {
+    "name": "تـركـي",
+    "email": "owner@nitaq.sa",
+    "password": "Nn2030",
+    "role": "founder",
+    "banned": false,
+    "permissions": [
+      "manage_users"
+    ],
+    "lastLogin": "4/2/2026, 1:43:46 PM",
+    "loginCount": 41,
+    "achievements": [
+      "10 عمليات تحقق"
+    ]
+  },
+  {
+    "name": "سامي",
+    "email": "mryrt1270@gmail.com",
+    "password": "Ljuf1212",
+    "role": "user",
+    "banned": false,
+    "permissions": [],
+    "createdAt": "2/27/2026, 7:27:37 PM",
+    "lastLogin": null,
+    "promotedAt": null,
+    "loginCount": 0,
+    "achievements": []
+  },
+  {
+    "name": "نواف الرشيدي",
+    "email": "qwertyu@gmail.com",
+    "password": "Aa>12345#",
+    "role": "user",
+    "banned": false,
+    "permissions": [],
+    "createdAt": "2/28/2026, 12:07:26 AM",
+    "lastLogin": null,
+    "promotedAt": null,
+    "loginCount": 0
+  },
+  {
+    "name": "مهند",
+    "email": "mohandmutep@outlook.com",
+    "password": "Ljuf@2007",
+    "role": "user",
+    "banned": false,
+    "permissions": [],
+    "createdAt": "3/4/2026, 3:26:56 AM",
+    "lastLogin": "3/4/2026, 3:27:17 AM",
+    "promotedAt": null,
+    "loginCount": 1,
+    "achievements": [
+      "أول عملية تحقق"
+    ]
+  },
+  {
+    "name": "نواف الرشيدي",
+    "email": "trok112244@icloud.com",
+    "password": "Nwafsultan.1104@",
+    "role": "user",
+    "banned": false,
+    "permissions": [],
+    "createdAt": "4/1/2026, 11:21:50 AM",
+    "lastLogin": "4/1/2026, 11:22:09 AM",
+    "promotedAt": null,
+    "loginCount": 1,
+    "achievements": [
+      "أول عملية تحقق"
+    ]
+  },
+  {
+    "name": "علي أل رافع ",
+    "email": "alialrafae@gmail.com",
+    "password": "Aa09590959@",
+    "role": "user",
+    "banned": false,
+    "permissions": [],
+    "createdAt": "4/1/2026, 11:29:56 AM",
+    "lastLogin": "4/1/2026, 11:30:16 AM",
+    "promotedAt": null,
+    "loginCount": 1,
+    "achievements": [
+      "أول عملية تحقق"
+    ]
+  }
+]
