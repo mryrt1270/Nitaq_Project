@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>التحقق من الصلاحيات - Nitaq</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<video class="video-bg" autoplay muted loop playsinline>
+<source src="/video/background.mp4" type="video/mp4">
+</video>
+
+<nav class="navbar">
+<div class="logo">Nitaq</div>
+<div class="nav-links">
+<a href="/dashboard">لوحة التحكم</a>
+<a href="/timeline">السجل</a>
+</div>
+<button class="nav-btn" onclick="window.location.href='/logout'">
+تسجيل الخروج
+</button>
+</nav>
+
+<section class="dash-container">
+
+<div class="dash-header">
+<div>
+<h1>تحقق من صلاحية الجهة</h1>
+<p>اعرف هل يحق للجهة طلب هذا المستند أم لا</p>
+</div>
+</div>
+
+<div class="users-table-wrapper" style="padding:40px;">
+
+<form method="POST" action="/check" style="display:flex; flex-direction:column; gap:20px;">
+
+<select name="entity" required class="table-btn" style="padding:15px;">
+<option value="">اختر الجهة</option>
+<option value="بنك">بنك</option>
+<option value="جامعة">جامعة</option>
+<option value="شركة توظيف">شركة توظيف</option>
+</select>
+
+<select name="data" required class="table-btn" style="padding:15px;">
+<option value="">اختر نوع المستند</option>
+<option value="تعريف بالراتب">تعريف بالراتب</option>
+<option value="سجل مدني">سجل مدني</option>
+<option value="كشف حساب">كشف حساب</option>
+</select>
+
+<button type="submit" class="btn primary">
+تحقق الآن
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تسجيل الدخول - Nitaq</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    
+<!-- نفس فيديو الخلفية -->
+<video class="video-bg" autoplay muted loop playsinline>
+    <source src="video/background.mp4" type="video/mp4">
+</video>
+
+<!-- موجات الخلفية -->
+<svg class="light-lines" viewBox="0 0 1440 600" preserveAspectRatio="none">
+    <path d="M0,300 C200,200 400,400 600,300 800,200 1000,400 1200,300 1400,200 1600,400 1800,300"
+          stroke="rgba(255,255,255,0.25)"
+          stroke-width="2"
+          fill="none"/>
+</svg>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+
+    <div class="nav-links">
+        <a href="/">الرئيسية</a>
+        <a href="#">الأمان</a>
+        <a href="#">تواصل معنا</a>
+    </div>
+
+    <button class="nav-btn" onclick="window.location.href='/login'">
+    تسجيل الدخول
+</button>
+
+</nav>
+
+<section class="hero">
+
+    <div class="release-badge">
+        <span class="status-dot"></span>
+        <span>بوابة الدخول الآمنة</span>
+    </div>
+
+    <h1 style="font-size: clamp(32px,4vw,48px);">
+        تسجيل الدخول
+    </h1>
+
+   <div class="login-box">
+
+<form action="/login" method="POST">
+
+    <div class="input-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" name="email" required>
+    </div>
+
+    <div class="input-group">
+        <label>كلمة المرور</label>
+        <input type="password" name="password" required>
+    </div>
+
+    <button type="submit" class="btn primary" style="width:100%; margin-top:20px;">
+        دخول ←
+    </button>
+
+</form>
+
+</div>
+
+</section>
+
+</body>
+</html>

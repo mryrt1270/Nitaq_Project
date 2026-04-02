@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Nitaq | لوحتي</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+
+<style>
+
+.home-container{
+    padding:140px 40px 80px;
+    max-width:1100px;
+    margin:auto;
+    position:relative;
+    z-index:2;
+}
+
+.welcome-box{
+    margin-bottom:50px;
+}
+
+.welcome-box h1{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.welcome-box p{
+    opacity:.7;
+}
+
+.quick-actions{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    margin-bottom:60px;
+}
+
+.action-card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(25px);
+    border-radius:25px;
+    padding:35px;
+    border:1px solid rgba(255,255,255,0.1);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 0 30px rgba(255,255,255,0.2);
+}
+
+.action-card h3{
+    margin-bottom:10px;
+}
+
+.action-card p{
+    font-size:14px;
+    opacity:.7;
+}
+
+.stats-box{
+    display:flex;
+    gap:30px;
+    margin-bottom:60px;
+}
+
+.hero-stat{
+    background:rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.hero-stat strong{
+    font-size:28px;
+    display:block;
+}
+
+.hero-stat span{
+    font-size:13px;
+    opacity:.6;
+}
+
+.recent-box{
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(25px);
+    border-radius:25px;
+    padding:40px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.recent-box h3{
+    margin-bottom:25px;
+}
+
+.recent-item{
+    padding:15px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.recent-item:last-child{
+    border:none;
+}
+
+.note-text{
+    font-size:12px;
+    opacity:.6;
+    margin-top:6px;
+}
+
+.note-form{
+    margin-top:8px;
+}
+
+.note-form input{
+    padding:6px;
+    font-size:12px;
+}
+
+.note-form button{
+    font-size:12px;
+    padding:6px 10px;
+}
+
+.no-activity{
+    opacity:.5;
+    font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<video class="video-bg" autoplay muted loop playsinline>
+<source src="/video/background.mp4" type="video/mp4">
+</video>
+
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+
+    <div class="nav-links">
+        <a href="/">الرئيسية</a>
+        <a href="/profile">ملفي الشخصي</a>
+        <a href="/services">التحقق</a>
+        <a href="/timeline">السجل</a>
+
+        <% if(user.role === "admin" || user.role === "founder"){ %>
+            <a href="/dashboard">لوحة التحكم</a>
+        <% } %>
+    </div>
+
+    <button class="nav-btn" onclick="window.location.href='/logout'">
+        تسجيل الخروج
+    </button>
+</nav>
+
+<section class="home-container">
+
+<div class="welcome-box">
+    <h1>مرحبًا <%= user.name %> 👋</h1>
+    <p>ابدأ باستخدام منصة نطاق لإدارة والتحقق من الطلبات النظامية بكل سهولة.</p>
+</div>
+
+<div class="quick-actions">
+
+    <div class="action-card" onclick="window.location.href='/services'">
+        <h3>🔎 بدء التحقق</h3>
+        <p>تحقق من مشروعية طلب جهة معينة فورًا.</p>
+    </div>
+
+    <div class="action-card" onclick="window.location.href='/timeline'">
+        <h3>📜 السجل</h3>
+        <p>عرض جميع عمليات التحقق السابقة.</p>
+    </div>
+
+    <% if(user.role === "admin" || user.role === "founder"){ %>
+    <div class="action-card" onclick="window.location.href='/dashboard'">
+        <h3>🛠 لوحة التحكم</h3>
+        <p>إدارة القواعد والمستخدمين.</p>
+    </div>
+    <% } %>
+
+</div>
+
+</div>
+<div class="stats-box">
+    <div class="hero-stat">
+        <strong><%= totalRequests %></strong>
+        <span>عمليات التحقق الخاصة بك</span>
+    </div>
+
+    <div class="hero-stat">
+        <strong><%= rejectionRate %>%</strong>
+        <span>نسبة الطلبات غير المتوافقة</span>
+    </div>
+
+    <div class="hero-stat">
+        <strong>
+            <%= user.role === "founder" ? "المؤسس" : user.role === "admin" ? "أدمن" : "مستخدم" %>
+        </strong>
+        <span>نوع الحساب</span>
+    </div>
+</div>
+
+<div class="recent-box">
+    <h3>آخر 5 عمليات تحقق</h3>
+
+    <% if(recentRequests.length === 0){ %>
+        <div class="no-activity">
+            لم تقم بأي عملية تحقق حتى الآن.
+        </div>
+    <% } else { %>
+
+        <% recentRequests.forEach(r => { %>
+
+            <div class="recent-item">
+                <div>
+                    <strong><%= r.entity %></strong> - <%= r.data %>
+                    <div style="font-size:12px; opacity:.5;"><%= r.time %></div>
+
+                    <% if(r.note){ %>
+                        <div class="note-text">
+                            ملاحظة: <%= r.note %>
+                        </div>
+                    <% } else { %>
+                       <form method="POST" action="/requests/add-note" class="note-form">
+    <input type="hidden" name="time" value="<%= r.time %>">
+    <input type="text" name="note" placeholder="إضافة ملاحظة...">
+    <button type="submit">حفظ</button>
+</form>
+                    <% } %>
+
+                </div>
+                <div>
+                    <%= r.result %>
+                </div>
+            </div>
+
+        <% }) %>
+
+    <% } %>
+</div>
+
+</section>
+
+</body>
+</html>

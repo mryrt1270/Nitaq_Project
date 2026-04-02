@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>إدارة المستخدمين - Nitaq</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- خلفية -->
+<video class="video-bg" autoplay muted loop playsinline>
+    <source src="/video/background.mp4" type="video/mp4">
+</video>
+
+<!-- نافبار -->
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+    <div class="nav-links">
+        <a href="/dashboard">لوحة التحكم</a>
+        <a href="/admin">إدارة القواعد</a>
+        <a href="/logs">سجل التعديلات</a>
+    </div>
+    <button class="nav-btn" onclick="window.location.href='/logout'">تسجيل الخروج</button>
+</nav>
+
+<section class="dash-container">
+
+    <!-- عنوان الصفحة -->
+    <div class="dash-header">
+        <div>
+            <h1>إدارة المستخدمين</h1>
+            <p>التحكم الكامل في الحسابات والصلاحيات</p>
+        </div>
+    </div>
+
+    <!-- بحث -->
+    <div class="users-search">
+        <form method="GET" action="/users">
+            <input type="text" name="search" placeholder="ابحث بالإيميل...">
+            <button class="btn primary" type="submit">بحث</button>
+        </form>
+    </div>
+
+    <!-- جدول المستخدمين -->
+    <div class="users-table-wrapper">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>البريد</th>
+                    <th>الدور</th>
+                    <th>الحالة</th>
+                    <th style="text-align:center;">إدارة</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% users.forEach(function(u){ %>
+                <tr>
+                    <td>
+    <a href="/users/<%= encodeURIComponent(u.email) %>" class="user-link">
+        <%= u.name %>
+    </a>
+</td>
+                    <td><%= u.email %></td>
+
+                    <td>
+                        <span class="role-tag <%= u.role %>">
+                            <% if (u.role === "founder") { %>
+                                المؤسس
+                            <% } else if (u.role === "admin") { %>
+                                أدمن
+                            <% } else { %>
+                                مستخدم
+                            <% } %>
+                        </span>
+                    </td>
+
+                    <td class="<%= u.banned ? 'status-banned' : 'status-active' %>">
+                        <%= u.banned ? "محظور" : "نشط" %>
+                    </td>
+
+                    <td style="text-align:center;">
+
+                        <% if (u.role !== "founder") { %>
+
+                            <!-- زر فتح نافذة تغيير الاسم -->
+                            <button class="table-btn"
+                                    type="button"
+                                    onclick="openNameModal('<%= u.email %>')">
+                                تغيير الاسم
+                            </button>
+
+                            <!-- تغيير الدور -->
+                            <form method="POST" action="/users/role" class="inline-form">
+                                <input type="hidden" name="email" value="<%= u.email %>">
+                                <select name="role">
+                                    <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>مستخدم</option>
+                                    <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>أدمن</option>
+                                </select>
+                                <button type="submit" class="table-btn">
+                                    تحديث الدور
+                                </button>
+                            </form>
+
+                            <!-- صلاحية إدارة المستخدمين (فقط للمؤسس الحالي) -->
+                            <% if (currentUser && currentUser.role === "founder") { %>
+                                <form method="POST" action="/users/toggle-permission" class="inline-form">
+                                    <input type="hidden" name="email" value="<%= u.email %>">
+
+                                    <%
+                                        var hasPermission = false;
+                                        if (u.permissions && Array.isArray(u.permissions)) {
+                                            hasPermission = u.permissions.includes("manage_users");
+                                        }
+                                    %>
+
+                                    <% if (hasPermission) { %>
+                                        <button type="submit" class="table-btn">
+                                            إزالة صلاحية الإدارة
+                                        </button>
+                                    <% } else { %>
+                                        <button type="submit" class="table-btn">
+                                            منح صلاحية الإدارة
+                                        </button>
+                                    <% } %>
+                                </form>
+                            <% } %>
+
+                            <!-- حظر / فك الحظر -->
+                            <% if (!u.banned) { %>
+                                <form method="POST" action="/users/ban" class="inline-form">
+                                    <input type="hidden" name="email" value="<%= u.email %>">
+                                    <button type="submit" class="table-btn danger-btn">
+                                        حظر
+                                    </button>
+                                </form>
+                            <% } else { %>
+                                <form method="POST" action="/users/unban" class="inline-form">
+                                    <input type="hidden" name="email" value="<%= u.email %>">
+                                    <button type="submit" class="table-btn">
+                                        فك الحظر
+                                    </button>
+                                </form>
+                            <% } %>
+
+                            <!-- حذف -->
+                            <form method="POST"
+                                  action="/users/delete"
+                                  class="inline-form"
+                                  onsubmit="return confirm('هل أنت متأكد من حذف هذا الحساب؟');">
+                                <input type="hidden" name="email" value="<%= u.email %>">
+                                <button type="submit" class="table-btn danger-btn">
+                                    حذف
+                                </button>
+                            </form>
+
+                        <% } else { %>
+                            —
+                        <% } %>
+
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <% for (var i = 1; i <= totalPages; i++) { %>
+            <a href="/users?page=<%= i %>"
+               class="page-link <%= i === currentPage ? 'active-page' : '' %>">
+               <%= i %>
+            </a>
+        <% } %>
+    </div>
+
+</section>
+
+<!-- نافذة تغيير الاسم -->
+<div id="nameModal" class="modal">
+    <div class="modal-content">
+        <h3>تغيير الاسم</h3>
+        <form method="POST" action="/users/change-name">
+            <input type="hidden" name="email" id="modalEmail">
+            <input type="text" name="newName" placeholder="الاسم الجديد" required>
+            <div class="modal-buttons">
+                <button type="submit" class="btn primary">حفظ</button>
+                <button type="button" class="btn secondary" onclick="closeModal()">إلغاء</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- سكربت للتحكم بالنافذة -->
+<script>
+function openNameModal(email){
+    document.getElementById('modalEmail').value = email;
+    document.getElementById('nameModal').style.display = 'flex';
+}
+
+function closeModal(){
+    document.getElementById('nameModal').style.display = 'none';
+}
+</script>
+
+</body>
+</html>

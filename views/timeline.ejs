@@ -1,86 +1,54 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>Timeline الطلبات</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mokhtarbsaid/saudi-font/all.min.css">
-    <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<title>السجل - Nitaq</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
-<header>
-    <h1>نِطاق - Timeline الطلبات</h1>
-    <hr>
-</header>
 
-<canvas id="timelineChart" width="600" height="300"></canvas>
+<video class="video-bg" autoplay muted loop playsinline>
+    <source src="/video/background.mp4" type="video/mp4">
+</video>
 
-<script>
-    var requests = <%- JSON.stringify(requests || []) %>;
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+    <div class="nav-links">
+        <a href="/dashboard">لوحة التحكم</a>
+        <a href="/">تحقق جديد</a>
+    </div>
+    <button class="nav-btn" onclick="window.location.href='/logout'">
+        تسجيل الخروج
+    </button>
+</nav>
 
-    var labels = [];
-    var data = [];
-    var colors = [];
+<section class="dash-container">
 
-    for (var i = 0; i < requests.length; i++) {
-        var r = requests[i];
-        labels.push(r.time || 'غير معروف');
-        if (r.result === '✅ قانوني') {
-            data.push(1);
-            colors.push('#000'); // أسود
-        } else if (r.result === '❌ غير قانوني') {
-            data.push(0);
-            colors.push('#333'); // رمادي داكن
-        } else {
-            data.push(0.5);
-            colors.push('#666'); // رمادي متوسط
-        }
-    }
+    <h1 style="margin-bottom:40px;">📜 سجل العمليات</h1>
 
-    var ctx = document.getElementById('timelineChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'حالة الطلب',
-                data: data,
-                backgroundColor: colors
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            if(context.raw === 1) return '✅ قانوني';
-                            if(context.raw === 0) return '❌ غير قانوني';
-                            if(context.raw === 0.5) return '⚠️ تحذير';
-                            return '';
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 1,
-                    ticks: {
-                        stepSize: 0.5,
-                        callback: function(value) {
-                            if (value === 1) return '✅ قانوني';
-                            if (value === 0) return '❌ غير قانوني';
-                            if (value === 0.5) return '⚠️ تحذير';
-                            return value;
-                        }
-                    }
-                }
-            }
-        }
-    });
-</script>
+    <% if (requests.length === 0) { %>
+        <p style="opacity:0.6;">لا توجد عمليات حتى الآن</p>
+    <% } else { %>
 
-<a href="/">عودة للصفحة الرئيسية</a>
+    <div class="timeline-list">
+        <% requests.slice().reverse().forEach(req => { %>
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <strong><%= req.entity %></strong>
+                    <span><%= req.time %></span>
+                </div>
+                <p>البيانات: <%= req.data %></p>
+                <div class="timeline-result"><%= req.result %></div>
+            </div>
+        <% }) %>
+    </div>
+
+    <% } %>
+
+</section>
+
 </body>
 </html>

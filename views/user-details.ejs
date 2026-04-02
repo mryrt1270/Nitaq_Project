@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تفاصيل المستخدم</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<section class="dash-container">
+
+<h1>تفاصيل الحساب</h1>
+
+<div class="detail-card">
+
+<p><strong>الاسم:</strong> <%= user.name %></p>
+<p><strong>البريد:</strong> <%= user.email %></p>
+<p><strong>الدور:</strong> <%= user.role %></p>
+<p><strong>الحالة:</strong> <%= user.banned ? "محظور" : "نشط" %></p>
+
+<hr>
+
+<p><strong>تاريخ إنشاء الحساب:</strong> <%= user.createdAt || "غير متوفر" %></p>
+<p><strong>آخر تسجيل دخول:</strong> <%= user.lastLogin || "لم يسجل دخول بعد" %></p>
+<p><strong>عدد مرات الدخول:</strong> <%= user.loginCount || 0 %></p>
+
+<% if(user.role === "admin"){ %>
+<p><strong>تاريخ الترقية لأدمن:</strong> <%= user.promotedAt || "غير مسجل" %></p>
+<% } %>
+
+</div>
+
+<br>
+
+<button onclick="window.location.href='/users'">
+رجوع لإدارة المستخدمين
+</button>
+
+</section>
+
+</body>
+</html>

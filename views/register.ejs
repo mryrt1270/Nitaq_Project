@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إنشاء حساب - Nitaq</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<video class="video-bg" autoplay muted loop playsinline>
+    <source src="/video/background.mp4" type="video/mp4">
+</video>
+
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+
+    <div class="nav-links">
+        <a href="/">الرئيسية</a>
+        <a href="/login">تسجيل الدخول</a>
+    </div>
+</nav>
+
+<section class="hero" style="min-height:100vh; justify-content:flex-start; padding-top:140px;">
+    <div class="login-box">
+
+        <h2 style="margin-bottom:20px;">إنشاء حساب جديد</h2>
+
+<% if (typeof success !== 'undefined' && success) { %>
+  <div class="success-msg"><%= success %></div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="error-message"><%= error %></div>
+<% } %>
+
+        <form action="/register" method="POST">
+
+            <!-- الاسم -->
+            <div class="input-group">
+                <label>الاسم</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <!-- البريد -->
+            <div class="input-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <!-- كلمة المرور + الشريط + الشروط -->
+            <div class="input-group">
+                <label>كلمة المرور</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    oninput="updatePasswordUI()"
+                >
+
+                <!-- شريط قوة كلمة المرور -->
+                <div class="pw-strength-wrapper">
+                    <div class="pw-strength-bar" id="pwBar">
+                        <div class="pw-bar-segment"></div>
+                        <div class="pw-bar-segment"></div>
+                        <div class="pw-bar-segment"></div>
+                        <div class="pw-bar-segment"></div>
+                        <div class="pw-bar-segment"></div>
+                    </div>
+                    <div class="pw-strength-label" id="pwLabel">قوة كلمة المرور: —</div>
+                </div>
+
+                <!-- شروط كلمة المرور -->
+                <ul class="pw-conditions">
+                    <li class="pw-condition">
+                        <span class="pw-cond-dot" id="cond-english-dot"></span>
+                        تحتوي على حروف إنجليزية (A–Z أو a–z)
+                    </li>
+                    <li class="pw-condition">
+                        <span class="pw-cond-dot" id="cond-special-dot"></span>
+                        تحتوي على رمز خاص واحد على الأقل (@, #, $, &)
+                    </li>
+                    <li class="pw-condition">
+                        <span class="pw-cond-dot" id="cond-upper-dot"></span>
+                        تبدأ بحرف إنجليزي كبير (Capital Letter)
+                    </li>
+                    <li class="pw-condition">
+                        <span class="pw-cond-dot" id="cond-number-dot"></span>
+                        تحتوي على رقم واحد على الأقل (0–9)
+                    </li>
+                    <li class="pw-condition">
+                        <span class="pw-cond-dot" id="cond-length-dot"></span>
+                        لا تقل عن ٨ خانات (تشمل الحروف والأرقام والرموز)
+                    </li>
+                </ul>
+            </div>
+
+            <!-- تأكيد كلمة المرور -->
+            <div class="input-group">
+                <label>تأكيد كلمة المرور</label>
+                <input type="password" name="confirmPassword" required>
+            </div>
+
+            <button class="nav-btn" type="submit" style="width:100%; margin-top:10px;">
+                إنشاء الحساب
+            </button>
+
+        </form>
+
+        <div class="login-footer">
+            لديك حساب؟ <a href="/login">سجّل الدخول</a>
+        </div>
+
+    </div>
+</section>
+
+<script>
+function updatePasswordUI(){
+    const pw = document.getElementById('password').value;
+    const bar = document.getElementById('pwBar');
+    const label = document.getElementById('pwLabel');
+    const segments = bar.querySelectorAll('.pw-bar-segment');
+
+    // الشروط
+    const condEnglish   = /[A-Za-z]/.test(pw);   // وجود حرف إنجليزي
+    const condSpecial   = /[@#$&]/.test(pw);     // رمز خاص واحد على الأقل
+    const condUpper     = /^[A-Z]/.test(pw);     // أول حرف Capital
+    const condNumber    = /\d/.test(pw);         // رقم واحد على الأقل
+    const condLength    = pw.length >= 8;        // 8 خانات أو أكثر
+
+    // عدد الشروط المحققة
+    const passedCount = [
+        condEnglish,
+        condSpecial,
+        condUpper,
+        condNumber,
+        condLength
+    ].filter(Boolean).length;
+
+    // تحديث الدوائر
+    document.getElementById('cond-english-dot').classList.toggle('ok', condEnglish);
+    document.getElementById('cond-special-dot').classList.toggle('ok', condSpecial);
+    document.getElementById('cond-upper-dot').classList.toggle('ok', condUpper);
+    document.getElementById('cond-number-dot').classList.toggle('ok', condNumber);
+    document.getElementById('cond-length-dot').classList.toggle('ok', condLength);
+
+    // تصفير الألوان أولاً
+    bar.classList.remove('weak', 'medium', 'strong');
+
+    if(!pw){
+        label.textContent = "قوة كلمة المرور: —";
+        return;
+    }
+
+    // منعت الوصول للأخضر إلا لو كل الشروط متحققة
+    if(passedCount <= 2){
+        bar.classList.add('weak');
+        label.textContent = "قوة كلمة المرور: ضعيفة";
+    } else if(passedCount <= 4){
+        bar.classList.add('medium');
+        label.textContent = "قوة كلمة المرور: متوسطة";
+    } else if(passedCount === 5){
+        bar.classList.add('strong');
+        label.textContent = "قوة كلمة المرور: قوية";
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>التحقق - Nitaq</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+
+<style>
+
+.verify-container{
+    padding:140px 40px 100px;
+    max-width:750px;
+    margin:auto;
+    position:relative;
+    z-index:2;
+}
+
+.verify-card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(25px);
+    border-radius:30px;
+    padding:50px;
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 30px 70px rgba(0,0,0,0.6);
+}
+
+.verify-card h1{
+    font-size:32px;
+    margin-bottom:30px;
+    text-align:center;
+}
+
+.verify-field{
+    margin-bottom:20px;
+}
+
+.verify-field label{
+    display:block;
+    margin-bottom:8px;
+    opacity:.7;
+}
+
+.verify-field select,
+.verify-field input{
+    width:100%;
+    padding:14px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    color:white;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+}
+
+.verify-btn{
+    width:100%;
+    padding:15px;
+    border-radius:18px;
+    border:none;
+    font-size:16px;
+    font-weight:600;
+    background:white;
+    color:black;
+    cursor:pointer;
+    transition:.3s;
+    margin-top:15px;
+}
+
+.verify-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 20px rgba(255,255,255,0.6);
+}
+
+</style>
+</head>
+
+<body>
+
+<video class="video-bg" autoplay muted loop playsinline>
+<source src="/video/background.mp4" type="video/mp4">
+</video>
+
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+
+    <div class="nav-links">
+        <a href="/">الرئيسية</a>
+        <a href="/home">لوحتي</a>
+
+        <% if(user.role === "admin" || user.role === "founder"){ %>
+            <a href="/dashboard">لوحة التحكم</a>
+        <% } %>
+    </div>
+
+    <button class="nav-btn" onclick="window.location.href='/logout'">
+        تسجيل الخروج
+    </button>
+</nav>
+
+<section class="verify-container">
+
+<div class="verify-card">
+
+
+<h1>تحقق من صلاحية الطلب</h1>
+
+<div class="verify-field">
+<label>القطاع</label>
+<select id="sectorSelect">
+<option value="">اختر القطاع</option>
+</select>
+</div>
+
+<div class="verify-field">
+<label>الجهة</label>
+<select id="entitySelect">
+<option value="">اختر الجهة</option>
+</select>
+</div>
+
+<div class="verify-field">
+<label>المستند المطلوب</label>
+
+<input 
+    type="text" 
+    id="dataInput" 
+    placeholder="مثال: تعريف بالراتب"
+    list="suggestions">
+
+<datalist id="suggestions">
+    <% rules.forEach(r => { %>
+        <option value="<%= r.data %>">
+    <% }) %>
+</datalist>
+
+</div>
+
+<button class="verify-btn" onclick="checkPermission()">تحقق الآن</button>
+
+</div>
+</section>
+
+<script>
+
+// جلب القواعد من السيرفر
+const RULES = <%- JSON.stringify(rules || []) %>;
+
+const sectorSelect = document.getElementById('sectorSelect');
+const entitySelect = document.getElementById('entitySelect');
+
+// استخراج القطاعات بدون تكرار
+const sectors = [...new Set(RULES.map(r => r.sector))];
+
+sectors.forEach(sec => {
+    const opt = document.createElement('option');
+    opt.value = sec;
+    opt.textContent = sec;
+    sectorSelect.appendChild(opt);
+});
+
+const dataInput = document.getElementById('dataInput');
+
+dataInput.addEventListener('input', () => {
+
+    const selectedSector = sectorSelect.value;
+    const selectedEntity = entitySelect.value;
+    const value = dataInput.value.toLowerCase();
+
+    if(!selectedSector || !selectedEntity) return;
+
+    const suggestions = RULES
+        .filter(r =>
+            r.sector === selectedSector &&
+            r.entity === selectedEntity &&
+            r.data.toLowerCase().includes(value)
+        )
+        .map(r => r.data);
+
+    if(suggestions.length > 0){
+        dataInput.setAttribute("list", "suggestions");
+    }
+});
+
+// عند تغيير القطاع
+sectorSelect.addEventListener('change', () => {
+
+    entitySelect.innerHTML = '<option value="">اختر الجهة</option>';
+
+    const selectedSector = sectorSelect.value;
+
+    const entities = [...new Set(
+        RULES
+            .filter(r => r.sector === selectedSector)
+            .map(r => r.entity)
+    )];
+
+    entities.forEach(ent => {
+        const opt = document.createElement('option');
+        opt.value = ent;
+        opt.textContent = ent;
+        entitySelect.appendChild(opt);
+    });
+});
+
+// تنفيذ التحقق
+async function checkPermission(){
+
+    const sector = sectorSelect.value;
+    const entity = entitySelect.value;
+    const data = document.getElementById('dataInput').value.trim();
+
+    if(!sector || !entity || !data){
+        alert("أكمل جميع الحقول");
+        return;
+    }
+
+    const res = await fetch('/api/check', {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ sector, entity, data })
+    });
+
+    const result = await res.json();
+
+    const query = new URLSearchParams({
+        allowed: result.allowed,
+        sector: result.sector,
+        entity: result.entity,
+        data: result.data,
+        reason: result.reason,
+        time: result.time,
+        verificationId: result.verificationId
+    }).toString();
+
+    window.location.href = `/secret?${query}`;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>لوحة التحكم - Nitaq</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<video class="video-bg" autoplay muted loop playsinline>
+    <source src="/video/background.mp4" type="video/mp4">
+</video>
+
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+
+    <div class="nav-links">
+        <a href="/">الرئيسية</a>
+
+        <% if (user.role === "founder") { %>
+            <a href="/users">إدارة المستخدمين</a>
+        <% } %>
+
+        <% if (user.role === "admin" || user.role === "founder") { %>
+            <a href="/admin">إدارة القواعد</a>
+        <% } %>
+    </div>
+
+    <button class="nav-btn" onclick="window.location.href='/logout'">
+        تسجيل الخروج
+    </button>
+</nav>
+
+<section class="dash-container">
+
+    <div class="dash-header">
+        <div>
+            <h1>مرحباً <%= user.name %></h1>
+            <p><%= user.email %></p>
+        </div>
+
+        <div class="role-badge">
+            <% if (user.role === "founder") { %>
+                المؤسس
+            <% } else if (user.role === "admin") { %>
+                أدمن
+            <% } else { %>
+                مستخدم
+            <% } %>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <div>
+            <h3>عدد العمليات</h3>
+            <span><%= requests ? requests.length : 0 %></span>
+        </div>
+        <div>
+            <h3>الحالة</h3>
+            <span class="active-dot">نشط</span>
+        </div>
+        <div>
+            <h3>الدور الحالي</h3>
+            <span>
+                <% if (user.role === "founder") { %>
+                    المؤسس
+                <% } else if (user.role === "admin") { %>
+                    أدمن
+                <% } else { %>
+                    مستخدم
+                <% } %>
+            </span>
+        </div>
+    </div>
+
+   <div class="dash-actions">
+
+<!-- زر الخدمات لكل المستخدمين -->
+<button onclick="window.location.href='/services'">
+استكشف الصلاحيات
+</button>
+
+<!-- زر السجل -->
+<button onclick="window.location.href='/timeline'">
+عرض السجل
+</button>
+
+<!-- لوحة التحكم فقط لو عنده صلاحية -->
+<% if (user.role === "admin" || user.role === "founder") { %>
+<button onclick="window.location.href='/admin'">
+لوحة التحكم
+</button>
+<% } %>
+
+</div>
+
+</section>
+
+</body>
+</html>

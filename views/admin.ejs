@@ -1,44 +1,104 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>لوحة الإدارة</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mokhtarbsaid/saudi-font/all.min.css">
-    <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<title>إدارة القواعد - Nitaq</title>
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
-<header>
-    <h1>لوحة الإدارة</h1>
-    <hr>
-</header>
 
-<h2>إضافة قاعدة جديدة</h2>
-<form action="/admin" method="POST">
-    <label>الجهة:</label>
-    <input type="text" name="entity" required>
+<video class="video-bg" autoplay muted loop playsinline>
+    <source src="/video/background.mp4" type="video/mp4">
+</video>
 
-    <label>البيانات:</label>
-    <input type="text" name="data" required>
+<nav class="navbar">
+    <div class="logo">Nitaq</div>
+    <div class="nav-links">
+        <a href="/dashboard">لوحة التحكم</a>
+        <a href="/users">إدارة المستخدمين</a>
+        <a href="/logs">سجل التعديلات</a>
+    </div>
+    <button class="nav-btn" onclick="window.location.href='/logout'">
+        تسجيل الخروج
+    </button>
+</nav>
 
-    <label>مسموح؟</label>
-    <select name="allowed">
-        <option value="true">✅ قانوني</option>
-        <option value="false">❌ غير قانوني</option>
-    </select>
+<section class="dash-container">
 
-    <button type="submit">إضافة القاعدة</button>
-</form>
+    <h1 style="margin-bottom:30px;">🛠 إدارة القواعد النظامية</h1>
 
-<h2>القواعد الحالية</h2>
-<ul>
-    <% rules.forEach(rule => { %>
-        <li><%= rule.entity %> - <%= rule.data %> : <%= rule.allowed ? '✅ قانوني' : '❌ غير قانوني' %></li>
-    <% }); %>
-</ul>
+    <!-- نموذج إضافة قاعدة جديدة -->
+    <div class="admin-form glass-card">
+        <form action="/admin/rules/add" method="POST">
 
-<a href="/">عودة للصفحة الرئيسية</a>
-<a href="/timeline">عرض Timeline الطلبات</a>
+            <div class="input-group">
+                <label>القطاع</label>
+                <input type="text" name="sector" placeholder="مثال: مالي / صحي / تعليمي" required>
+            </div>
 
-<script src="/script.js"></script>
+            <div class="input-group">
+                <label>الجهة</label>
+                <input type="text" name="entity" placeholder="مثال: بنك الراجحي / مستشفى الحرس" required>
+            </div>
+
+            <div class="input-group">
+                <label>نوع الطلب / المستند</label>
+                <input type="text" name="data" placeholder="مثال: تعريف بالراتب، تقرير طبي..." required>
+            </div>
+
+            <div class="input-group">
+                <label>الحالة النظامية</label>
+                <select name="allowed" required>
+                    <option value="true">✅ مسموح</option>
+                    <option value="false">❌ غير مسموح</option>
+                </select>
+            </div>
+
+            <button class="btn primary" style="margin-top:15px;">
+                إضافة القاعدة
+            </button>
+        </form>
+    </div>
+
+    <!-- قائمة القواعد الحالية -->
+    <div class="rules-list">
+        <% if(rules.length === 0){ %>
+            <p style="opacity:.6; margin-top:20px;">لا توجد قواعد مسجلة حتى الآن.</p>
+        <% } else { %>
+
+            <% rules.forEach(function(rule){ %>
+                <div class="rule-item glass-row">
+                    <div>
+                        <strong><%= rule.sector || "بدون قطاع" %></strong> ·
+                        <span><%= rule.entity %></span>
+                        <div style="font-size:13px; opacity:.7; margin-top:4px;">
+                            الطلب: <%= rule.data %>
+                        </div>
+                    </div>
+
+                    <div style="text-align:left;">
+                        <span style="font-size:13px; margin-left:10px;">
+                            <%= rule.allowed ? "✅ مسموح" : "❌ غير مسموح" %>
+                        </span>
+
+                        <form action="/admin/rules/delete" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="<%= rule.id %>">
+                            <button class="table-btn danger-btn" type="submit"
+                                    onclick="return confirm('حذف هذه القاعدة؟');">
+                                حذف
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+
+        <% } %>
+    </div>
+
+</section>
+
 </body>
 </html>
