@@ -1,83 +1,108 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>Nitaq</title>
+<meta charset="UTF-8">
+<title>Nitaq</title>
 
-    <!-- Arabic Government-style Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
 
 <!-- VIDEO BACKGROUND -->
 <video class="video-bg" autoplay muted loop playsinline>
-    <source src="/video/background.mp4" type="video/mp4">
+<source src="/video/background.mp4" type="video/mp4">
 </video>
 
-<!-- WAVY LINES (مثل وثيق) -->
+<!-- WAVY LINES -->
 <svg class="light-lines" viewBox="0 0 1440 600" preserveAspectRatio="none">
-    <path d="M0,300 C200,200 400,400 600,300 800,200 1000,400 1200,300 1400,200 1600,400 1800,300"
-          stroke="rgba(255,255,255,0.25)"
-          stroke-width="2"
-          fill="none"/>
-    <path d="M0,360 C240,260 480,460 720,360 960,260 1200,460 1440,360"
-          stroke="rgba(255,255,255,0.15)"
-          stroke-width="1.5"
-          fill="none"/>
+<path d="M0,300 C200,200 400,400 600,300 800,200 1000,400 1200,300 1400,200 1600,400 1800,300"
+stroke="rgba(255,255,255,0.25)"
+stroke-width="2"
+fill="none"/>
 </svg>
 
 <!-- NAVBAR -->
 <nav class="navbar">
-    <div class="logo">Nitaq</div>
+<div class="logo">Nitaq</div>
 
-    <!-- روابط الوسط -->
-    <div class="nav-links">
-        <a href="#">المنتج</a>
-        <a href="#">الأمان</a>
-        <a href="#">تواصل معنا</a>
-    </div>
+<div class="nav-links">
+<a href="#">المنتج</a>
+<a href="#">الأمان</a>
+<a href="#">تواصل معنا</a>
+</div>
 
-    <button class="nav-btn">تسجيل الدخول</button>
+<div class="auth-menu">
+
+<% if(!user){ %>
+
+<button class="nav-btn" onclick="toggleAuthMenu()">
+تسجيل الدخول
+</button>
+
+<div class="auth-dropdown" id="authDropdown">
+<a href="/login">تسجيل الدخول</a>
+<a href="/register">إنشاء حساب</a>
+</div>
+
+<% } else { %>
+
+<button class="nav-btn" onclick="window.location.href='/home'">
+لوحتي
+</button>
+
+<% } %>
+
+</div>
 </nav>
-
 
 <!-- HERO -->
 <section class="hero">
-    <div class="release-badge">
-    <span class="status-dot"></span>
-    <span class="release-text">الإصدار 1.0 متاح الآن</span>
+
+<div class="release-badge">
+<span class="status-dot"></span>
+<span class="release-text">الإصدار 1.0 متاح الآن</span>
 </div>
 
+<h1>
+العالم الجديد<br>
+للتوثيق الرقمي
+</h1>
 
-    <h1>
-        العالم الجديد<br>
-        للتوثيق الرقمي
-    </h1>
+<p>
+إصدار وإدارة والتحقق من الوثائق الرسمية بيقين تشريعي،
+مدعوم بالهوية الرقمية السيادية والخدمات الحكومية الآمنة.
+</p>
 
-    <p>
-        إصدار وإدارة والتحقق من الوثائق الرسمية بيقين تشريعي،
-        مدعوم بالهوية الرقمية السيادية والخدمات الحكومية الآمنة.
-    </p>
+<div class="buttons">
 
-    <div class="buttons">
-        <a href="#" class="btn primary">ابدأ الإصدار ←</a>
-        <a href="#" class="btn secondary">لحجز عرض توضيحي</a>
-    </div>
+<% if(!user){ %>
+<a href="/register" class="btn primary">ابدأ الإصدار ←</a>
+<a href="/login" class="btn secondary">تسجيل الدخول</a>
+<% } else { %>
+<a href="/home" class="btn primary">الانتقال إلى لوحتي</a>
+<% } %>
+
+</div>
+
 </section>
 
-
-
 <footer class="footer">
-    <p class="footer-text">مدعوم بواسطة</p>
-     <div class="humain-btn">HUMAIN</div>
-
+<p class="footer-text">مدعوم بواسطة</p>
+<div class="humain-btn">HUMAIN</div>
 </footer>
 
+<script>
+function toggleAuthMenu() {
+const menu = document.getElementById("authDropdown");
+menu.classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
