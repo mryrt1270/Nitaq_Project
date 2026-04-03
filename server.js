@@ -409,6 +409,7 @@ app.get('/users', requireFounder, (req, res) => {
     const search = req.query.search || "";
     const filter = req.query.filter || "all";
 
+    // ✅ هنا التعريف الصحيح
     let filteredUsers = [...users];
 
     if (search) {
@@ -420,6 +421,12 @@ app.get('/users', requireFounder, (req, res) => {
     if (filter !== "all") {
         filteredUsers = filteredUsers.filter(u => u.role === filter);
     }
+
+    // ✅ الترتيب
+    filteredUsers.sort((a, b) => {
+        const order = { founder: 0, admin: 1, user: 2 };
+        return order[a.role] - order[b.role];
+    });
 
     res.render('users', {
         users: filteredUsers,
@@ -571,16 +578,6 @@ app.get('/timeline', requireLogin, (req, res) => {
         user: req.session.user,
         requests: userRequests
     });
-});
-
-filteredUsers.sort((a, b) => {
-    const order = {
-        founder: 0,
-        admin: 1,
-        user: 2
-    };
-
-    return order[a.role] - order[b.role];
 });
 
 // ================== START ==================
