@@ -2,10 +2,84 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إنشاء حساب - Nitaq</title>
 
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
+
+    <style>
+        .register-page{
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 140px 20px 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .register-card{
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .register-title{
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .register-submit{
+            width: 100%;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px){
+            .register-page{
+                padding: 120px 16px 50px;
+            }
+
+            .register-card{
+                max-width: 100%;
+            }
+
+            .register-title{
+                font-size: 26px;
+                margin-bottom: 18px;
+            }
+
+            .login-box{
+                width: 100%;
+                padding: 22px 18px;
+                border-radius: 16px;
+            }
+
+            .nav-links{
+                gap: 18px;
+            }
+
+            .nav-links a{
+                font-size: 13px;
+            }
+
+            .logo{
+                font-size: 15px;
+                letter-spacing: 3px;
+            }
+
+            .navbar{
+                padding: 14px 16px;
+            }
+
+            .pw-conditions{
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -13,8 +87,15 @@
     <source src="/video/background.mp4" type="video/mp4">
 </video>
 
+<svg class="light-lines" viewBox="0 0 1440 600" preserveAspectRatio="none">
+    <path d="M0,300 C200,200 400,400 600,300 800,200 1000,400 1200,300 1400,200 1600,400 1800,300"
+          stroke="rgba(255,255,255,0.25)"
+          stroke-width="2"
+          fill="none"/>
+</svg>
+
 <nav class="navbar">
-    <div class="logo">Nitaq</div>
+    <div class="logo">NITAQ</div>
 
     <div class="nav-links">
         <a href="/">الرئيسية</a>
@@ -22,34 +103,31 @@
     </div>
 </nav>
 
-<section class="hero" style="min-height:100vh; justify-content:flex-start; padding-top:140px;">
-    <div class="login-box">
+<section class="register-page">
+    <div class="register-card login-box">
 
-        <h2 style="margin-bottom:20px;">إنشاء حساب جديد</h2>
+        <h2 class="register-title">إنشاء حساب جديد</h2>
 
-<% if (typeof success !== 'undefined' && success) { %>
-  <div class="success-msg"><%= success %></div>
-<% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="success-msg"><%= success %></div>
+        <% } %>
 
-<% if (typeof error !== 'undefined' && error) { %>
-  <div class="error-message"><%= error %></div>
-<% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error-message"><%= error %></div>
+        <% } %>
 
         <form action="/register" method="POST">
 
-            <!-- الاسم -->
             <div class="input-group">
                 <label>الاسم</label>
                 <input type="text" name="name" required>
             </div>
 
-            <!-- البريد -->
             <div class="input-group">
                 <label>البريد الإلكتروني</label>
                 <input type="email" name="email" required>
             </div>
 
-            <!-- كلمة المرور + الشريط + الشروط -->
             <div class="input-group">
                 <label>كلمة المرور</label>
                 <input
@@ -60,7 +138,6 @@
                     oninput="updatePasswordUI()"
                 >
 
-                <!-- شريط قوة كلمة المرور -->
                 <div class="pw-strength-wrapper">
                     <div class="pw-strength-bar" id="pwBar">
                         <div class="pw-bar-segment"></div>
@@ -72,7 +149,6 @@
                     <div class="pw-strength-label" id="pwLabel">قوة كلمة المرور: —</div>
                 </div>
 
-                <!-- شروط كلمة المرور -->
                 <ul class="pw-conditions">
                     <li class="pw-condition">
                         <span class="pw-cond-dot" id="cond-english-dot"></span>
@@ -97,13 +173,12 @@
                 </ul>
             </div>
 
-            <!-- تأكيد كلمة المرور -->
             <div class="input-group">
                 <label>تأكيد كلمة المرور</label>
                 <input type="password" name="confirmPassword" required>
             </div>
 
-            <button class="nav-btn" type="submit" style="width:100%; margin-top:10px;">
+            <button class="nav-btn register-submit" type="submit">
                 إنشاء الحساب
             </button>
 
@@ -121,16 +196,13 @@ function updatePasswordUI(){
     const pw = document.getElementById('password').value;
     const bar = document.getElementById('pwBar');
     const label = document.getElementById('pwLabel');
-    const segments = bar.querySelectorAll('.pw-bar-segment');
 
-    // الشروط
-    const condEnglish   = /[A-Za-z]/.test(pw);   // وجود حرف إنجليزي
-    const condSpecial   = /[@#$&]/.test(pw);     // رمز خاص واحد على الأقل
-    const condUpper     = /^[A-Z]/.test(pw);     // أول حرف Capital
-    const condNumber    = /\d/.test(pw);         // رقم واحد على الأقل
-    const condLength    = pw.length >= 8;        // 8 خانات أو أكثر
+    const condEnglish = /[A-Za-z]/.test(pw);
+    const condSpecial = /[@#$&]/.test(pw);
+    const condUpper = /^[A-Z]/.test(pw);
+    const condNumber = /\d/.test(pw);
+    const condLength = pw.length >= 8;
 
-    // عدد الشروط المحققة
     const passedCount = [
         condEnglish,
         condSpecial,
@@ -139,14 +211,12 @@ function updatePasswordUI(){
         condLength
     ].filter(Boolean).length;
 
-    // تحديث الدوائر
     document.getElementById('cond-english-dot').classList.toggle('ok', condEnglish);
     document.getElementById('cond-special-dot').classList.toggle('ok', condSpecial);
     document.getElementById('cond-upper-dot').classList.toggle('ok', condUpper);
     document.getElementById('cond-number-dot').classList.toggle('ok', condNumber);
     document.getElementById('cond-length-dot').classList.toggle('ok', condLength);
 
-    // تصفير الألوان أولاً
     bar.classList.remove('weak', 'medium', 'strong');
 
     if(!pw){
@@ -154,7 +224,6 @@ function updatePasswordUI(){
         return;
     }
 
-    // منعت الوصول للأخضر إلا لو كل الشروط متحققة
     if(passedCount <= 2){
         bar.classList.add('weak');
         label.textContent = "قوة كلمة المرور: ضعيفة";

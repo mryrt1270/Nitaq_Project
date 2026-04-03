@@ -1404,10 +1404,7 @@ footer {
     align-items: center;
 }
 
-/* نخفي الزحمة */
-.nav-links{
-    display: none !important;
-}
+
 
 /* ترتيب العناصر */
 .logo{
