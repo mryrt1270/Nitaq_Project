@@ -195,13 +195,18 @@
     right:25px;
     width:320px;
     height:450px;
-    background:rgba(0,0,0,0.6);
+
+    background:rgba(20,20,20,0.95); /* أهم سطر 🔥 */
+    color:white;
+
     backdrop-filter:blur(25px);
     border-radius:20px;
-    display:flex;
 
-    opacity:0; /* مخفي */
-    transform:translateY(30px); /* تحت شوي */
+    display:flex;
+    flex-direction:column;
+
+    opacity:0;
+    transform:translateY(30px);
     pointer-events:none;
 
     transition: all 0.3s ease;
@@ -222,8 +227,10 @@
 
 .chat-messages{
     flex:1;
-    padding:10px;
-    overflow:auto;
+    padding:15px;
+    overflow-y:auto;
+    font-size:14px;
+    color:white; /* مهم */
 }
 
 .chat-input{
@@ -232,11 +239,19 @@
 
 .chat-input input{
     flex:1;
-    padding:10px;
+    padding:12px;
+    border:none;
+    background:rgba(255,255,255,0.05);
+    color:white;
+    outline:none;
 }
 
 .chat-input button{
-    padding:10px;
+    padding:12px;
+    background:white;
+    border:none;
+    cursor:pointer;
+    color:black;
 }
 
 .chat-btn{
