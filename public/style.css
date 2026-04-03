@@ -1498,3 +1498,22 @@ footer {
 .light-lines{
     pointer-events: none;
 }
+/* ===== CHAT FIX FINAL ===== */
+
+.chat-box{
+    background: rgba(20,20,20,0.95) !important;
+    color:white !important;
+}
+
+.chat-messages{
+    color:white !important;
+}
+
+.chat-input input{
+    background: rgba(255,255,255,0.05) !important;
+    color:white !important;
+}
+
+.chat-btn{
+    z-index:999999 !important;
+}
