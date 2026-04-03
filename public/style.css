@@ -1485,3 +1485,9 @@ footer {
 }
 
 }
+/* إخفاء زر تسجيل الدخول في الجوال فقط */
+@media (max-width: 768px){
+    .nav-btn{
+        display: none !important;
+    }
+}

@@ -2,17 +2,94 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>تسجيل الدخول - Nitaq</title>
 
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/style.css">
+
+<style>
+/* تحسينات خاصة بصفحة تسجيل الدخول */
+.login-page{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 140px 20px 80px;
+    position: relative;
+    z-index: 2;
+}
+
+.login-page-inner{
+    width: 100%;
+    max-width: 460px;
+    text-align: center;
+}
+
+.login-page-title{
+    font-size: clamp(32px, 4vw, 48px);
+    margin-bottom: 12px;
+}
+
+.login-box{
+    width: 100%;
+    padding: 30px;
+    margin-top: 28px;
+}
+
+.login-submit{
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px){
+    .login-page{
+        padding: 120px 16px 60px;
+    }
+
+    .login-page-inner{
+        max-width: 100%;
+    }
+
+    .login-page-title{
+        font-size: 30px;
+        line-height: 1.35;
+    }
+
+    .login-box{
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    /* نخفي زر تسجيل الدخول العلوي في صفحة اللوقن بالجوال */
+    .navbar .nav-btn{
+        display: none !important;
+    }
+
+    .nav-links{
+        display: none !important;
+    }
+
+    .navbar{
+        padding: 14px 16px;
+    }
+
+    .logo{
+        font-size: 15px;
+        letter-spacing: 3px;
+    }
+}
+</style>
 </head>
 
 <body>
-    
-<!-- نفس فيديو الخلفية -->
+
+<!-- فيديو الخلفية -->
 <video class="video-bg" autoplay muted loop playsinline>
-    <source src="video/background.mp4" type="video/mp4">
+    <source src="/video/background.mp4" type="video/mp4">
 </video>
 
 <!-- موجات الخلفية -->
@@ -25,7 +102,7 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-    <div class="logo">Nitaq</div>
+    <div class="logo">NITAQ</div>
 
     <div class="nav-links">
         <a href="/">الرئيسية</a>
@@ -34,44 +111,45 @@
     </div>
 
     <button class="nav-btn" onclick="window.location.href='/login'">
-    تسجيل الدخول
-</button>
-
+        تسجيل الدخول
+    </button>
 </nav>
 
-<section class="hero">
+<section class="login-page">
+    <div class="login-page-inner">
 
-    <div class="release-badge">
-        <span class="status-dot"></span>
-        <span>بوابة الدخول الآمنة</span>
+        <div class="release-badge">
+            <span class="status-dot"></span>
+            <span>بوابة الدخول الآمنة</span>
+        </div>
+
+        <h1 class="login-page-title">تسجيل الدخول</h1>
+
+        <div class="login-box">
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message"><%= error %></div>
+            <% } %>
+
+            <form action="/login" method="POST">
+
+                <div class="input-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" name="email" required>
+                </div>
+
+                <div class="input-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn primary login-submit">
+                    دخول ←
+                </button>
+
+            </form>
+        </div>
+
     </div>
-
-    <h1 style="font-size: clamp(32px,4vw,48px);">
-        تسجيل الدخول
-    </h1>
-
-   <div class="login-box">
-
-<form action="/login" method="POST">
-
-    <div class="input-group">
-        <label>البريد الإلكتروني</label>
-        <input type="email" name="email" required>
-    </div>
-
-    <div class="input-group">
-        <label>كلمة المرور</label>
-        <input type="password" name="password" required>
-    </div>
-
-    <button type="submit" class="btn primary" style="width:100%; margin-top:20px;">
-        دخول ←
-    </button>
-
-</form>
-
-</div>
-
 </section>
 
 </body>
