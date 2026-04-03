@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>إدارة المستخدمين - Nitaq</title>
 
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
@@ -10,6 +11,70 @@
 </head>
 <body>
 
+    <style>
+
+        @media (max-width: 768px){
+
+/* الكونتينر */
+.dash-container{
+    padding:120px 12px 50px;
+}
+
+/* العنوان */
+.dash-header h1{
+    font-size:26px;
+}
+
+/* البحث */
+.users-search form{
+    flex-direction:column;
+    gap:10px;
+}
+
+.users-search input{
+    width:100%;
+}
+
+/* الجدول يصير سكرول */
+.users-table-wrapper{
+    overflow-x:auto;
+}
+
+/* تصغير الجدول */
+.users-table th,
+.users-table td{
+    padding:10px;
+    font-size:12px;
+}
+
+/* الزر */
+.main-action-btn{
+    font-size:12px;
+    padding:6px 10px;
+}
+
+/* القائمة */
+.actions-menu{
+    min-width:200px;
+    padding:10px;
+}
+
+/* المدخلات */
+.action-item input,
+.action-item select{
+    font-size:12px;
+    padding:8px;
+}
+
+/* الأزرار */
+.action-btn{
+    font-size:12px;
+    padding:8px;
+}
+
+}
+
+    </style>
 <video class="video-bg" autoplay muted loop playsinline>
     <source src="/video/background.mp4" type="video/mp4">
 </video>
