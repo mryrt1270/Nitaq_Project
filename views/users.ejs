@@ -8,24 +8,47 @@
 <link rel="stylesheet" href="/style.css">
 
 <style>
+.users-table-wrapper{
+    overflow: visible !important;
+    position: relative;
+    z-index: 1;
+}
+
+.users-table{
+    overflow: visible !important;
+}
+
+.users-table tbody tr{
+    position: relative;
+}
+
+.users-table td{
+    overflow: visible !important;
+}
+
 .user-actions-dropdown{
     position: relative;
     display: inline-block;
+    z-index: 50;
 }
 
 .main-action-btn{
     padding: 10px 16px;
-    border-radius: 12px;
+    border-radius: 14px;
     border: 1px solid rgba(255,255,255,0.14);
     background: rgba(255,255,255,0.08);
     color: white;
     cursor: pointer;
     font-family: 'IBM Plex Sans Arabic', sans-serif;
+    backdrop-filter: blur(12px);
+    transition: all .25s ease;
+    min-width: 150px;
 }
 
-.main-action-btn .arrow{
-    margin-right: 8px;
-    font-size: 12px;
+.main-action-btn:hover{
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0,0,0,.35);
 }
 
 .actions-menu{
@@ -33,18 +56,30 @@
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
-    min-width: 300px;
-    background: rgba(20,20,20,0.97);
-    backdrop-filter: blur(14px);
+    min-width: 320px;
+    background: rgba(18,18,18,0.97);
+    backdrop-filter: blur(16px);
     border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 14px;
-    z-index: 999;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    z-index: 99999;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.50);
 }
 
 .actions-menu.show{
     display: block;
+    animation: menuFade .18s ease;
+}
+
+@keyframes menuFade{
+    from{
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .action-item{
@@ -67,7 +102,7 @@
 .action-item select{
     flex: 1;
     min-width: 140px;
-    padding: 8px 10px;
+    padding: 10px 12px;
     border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.12);
     background: rgba(255,255,255,0.06);
@@ -75,14 +110,19 @@
     font-family: 'IBM Plex Sans Arabic', sans-serif;
 }
 
+.action-item select option{
+    color: black;
+}
+
 .action-btn{
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.14);
     background: rgba(255,255,255,0.08);
     color: white;
     cursor: pointer;
     font-family: 'IBM Plex Sans Arabic', sans-serif;
+    transition: .2s ease;
 }
 
 .action-btn:hover{
@@ -95,13 +135,14 @@
     border-color: rgba(239,68,68,0.35);
 }
 
-.action-btn.success{
-    background: rgba(34,197,94,0.18);
-    border-color: rgba(34,197,94,0.35);
+.action-btn.danger:hover,
+.action-btn.delete:hover{
+    background: rgba(239,68,68,0.28);
 }
 
-.action-btn.toggle-btn{
-    width: 100%;
+.founder-label{
+    color: #facc15;
+    font-weight: 700;
 }
 </style>
 </head>
@@ -180,69 +221,52 @@
 
                     <td style="text-align:center;">
                         <% if (u.role !== "founder") { %>
-                            <div class="user-actions-dropdown">
-                                <button type="button" class="main-action-btn" onclick="toggleActions('<%= safeId %>')">
-                                    إدارة <%= u.name %>
-                                    <span class="arrow">▼</span>
-                                </button>
 
-                                <div class="actions-menu" id="actions-<%= safeId %>">
+                        <div class="user-actions-dropdown">
+                            <button type="button" class="main-action-btn" onclick="toggleActions('<%= safeId %>')">
+                                إدارة <%= u.name %> ▼
+                            </button>
 
-                                    <div class="action-item">
-                                        <form method="POST" action="/users/change-name">
-                                            <input type="hidden" name="email" value="<%= u.email %>">
-                                            <input type="text" name="newName" placeholder="الاسم الجديد" required>
-                                            <button type="submit" class="action-btn">حفظ</button>
-                                        </form>
-                                    </div>
+                            <div class="actions-menu" id="actions-<%= safeId %>">
 
-                                    <div class="action-item">
-                                        <form method="POST" action="/users/role">
-                                            <input type="hidden" name="email" value="<%= u.email %>">
-                                            <select name="role">
-                                                <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>مستخدم</option>
-                                                <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>أدمن</option>
-                                            </select>
-                                            <button type="submit" class="action-btn">تحديث</button>
-                                        </form>
-                                    </div>
-
-                                    <% if (currentUser && currentUser.role === "founder") { %>
-                                    <div class="action-item">
-                                        <form method="POST" action="/users/toggle-permission">
-                                            <input type="hidden" name="email" value="<%= u.email %>">
-                                            <button type="submit" class="action-btn toggle-btn">
-                                                <%= u.permissions && u.permissions.includes("manage_users") ? 'إزالة صلاحية الإدارة' : 'منح صلاحية الإدارة' %>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <% } %>
-
-                                    <div class="action-item">
-                                        <% if (!u.banned) { %>
-                                            <form method="POST" action="/users/ban">
-                                                <input type="hidden" name="email" value="<%= u.email %>">
-                                                <button type="submit" class="action-btn danger">حظر</button>
-                                            </form>
-                                        <% } else { %>
-                                            <form method="POST" action="/users/unban">
-                                                <input type="hidden" name="email" value="<%= u.email %>">
-                                                <button type="submit" class="action-btn success">فك الحظر</button>
-                                            </form>
-                                        <% } %>
-                                    </div>
-
-                                    <div class="action-item">
-                                        <form method="POST" action="/users/delete" onsubmit="return confirm('هل أنت متأكد من حذف هذا الحساب؟');">
-                                            <input type="hidden" name="email" value="<%= u.email %>">
-                                            <button type="submit" class="action-btn delete">حذف نهائي</button>
-                                        </form>
-                                    </div>
-
+                                <div class="action-item">
+                                    <form method="POST" action="/users/change-name">
+                                        <input type="hidden" name="email" value="<%= u.email %>">
+                                        <input type="text" name="newName" placeholder="الاسم الجديد" required>
+                                        <button type="submit" class="action-btn">حفظ</button>
+                                    </form>
                                 </div>
+
+                                <div class="action-item">
+                                    <form method="POST" action="/users/role">
+                                        <input type="hidden" name="email" value="<%= u.email %>">
+                                        <select name="role">
+                                            <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>مستخدم</option>
+                                            <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>أدمن</option>
+                                        </select>
+                                        <button type="submit" class="action-btn">تحديث</button>
+                                    </form>
+                                </div>
+
+                                <div class="action-item">
+                                    <form method="POST" action="/users/ban">
+                                        <input type="hidden" name="email" value="<%= u.email %>">
+                                        <button type="submit" class="action-btn danger">حظر</button>
+                                    </form>
+                                </div>
+
+                                <div class="action-item">
+                                    <form method="POST" action="/users/delete" onsubmit="return confirm('هل أنت متأكد من حذف هذا الحساب؟');">
+                                        <input type="hidden" name="email" value="<%= u.email %>">
+                                        <button type="submit" class="action-btn delete">حذف نهائي</button>
+                                    </form>
+                                </div>
+
                             </div>
+                        </div>
+
                         <% } else { %>
-                            <span style="color: gold;">المؤسس</span>
+                            <span class="founder-label">المؤسس</span>
                         <% } %>
                     </td>
                 </tr>
@@ -254,24 +278,21 @@
 </section>
 
 <script>
-function toggleActions(safeId){
-    const targetMenu = document.getElementById('actions-' + safeId);
-    if (!targetMenu) return;
+function toggleActions(id){
+    const menu = document.getElementById('actions-' + id);
+    if (!menu) return;
 
-    document.querySelectorAll('.actions-menu').forEach(menu => {
-        if (menu !== targetMenu) {
-            menu.classList.remove('show');
-        }
+    document.querySelectorAll('.actions-menu').forEach(m => {
+        if (m !== menu) m.classList.remove('show');
     });
 
-    targetMenu.classList.toggle('show');
+    menu.classList.toggle('show');
 }
 
-window.addEventListener('click', function(e){
-    const insideDropdown = e.target.closest('.user-actions-dropdown');
-    if (!insideDropdown) {
-        document.querySelectorAll('.actions-menu').forEach(menu => {
-            menu.classList.remove('show');
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.user-actions-dropdown')) {
+        document.querySelectorAll('.actions-menu').forEach(m => {
+            m.classList.remove('show');
         });
     }
 });
