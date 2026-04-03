@@ -404,36 +404,78 @@ app.get('/profile', requireLogin, (req, res) => {
 
 // ================== USERS ==================
 
-app.get('/users', requireFounder, (req, res) => {
-
-    const search = req.query.search || "";
-    const filter = req.query.filter || "all";
-
-    let filteredUsers = [...users];
-
-    if (search) {
-        filteredUsers = filteredUsers.filter(u =>
-            u.email.toLowerCase().includes(search.toLowerCase())
-        );
+// تغيير الاسم
+app.post('/users/change-name', requireFounder, (req, res) => {
+    const { email, newName } = req.body;
+    const user = users.find(u => u.email === email);
+    if (user) {
+        user.name = newName;
+        saveData(usersPath, users);
+        addLog("تغيير الاسم", email, req.session.user);
     }
+    res.redirect('/users');
+});
 
-    if (filter !== "all") {
-        filteredUsers = filteredUsers.filter(u => u.role === filter);
+// تغيير الدور
+app.post('/users/role', requireFounder, (req, res) => {
+    const { email, role } = req.body;
+    const user = users.find(u => u.email === email);
+    if (user) {
+        user.role = role;
+        saveData(usersPath, users);
+        addLog("تغيير الدور", email, req.session.user);
     }
+    res.redirect('/users');
+});
 
-    filteredUsers.sort((a, b) => {
-        const order = { founder: 1, admin: 2, user: 3 };
-        return order[a.role] - order[b.role];
-    });
+// منح / إزالة صلاحية
+app.post('/users/toggle-permission', requireFounder, (req, res) => {
+    const { email } = req.body;
+    const user = users.find(u => u.email === email);
+    if (user) {
+        user.permissions = user.permissions || [];
+        if (user.permissions.includes("manage_users")) {
+            user.permissions = user.permissions.filter(p => p !== "manage_users");
+        } else {
+            user.permissions.push("manage_users");
+        }
+        saveData(usersPath, users);
+        addLog("تعديل صلاحيات", email, req.session.user);
+    }
+    res.redirect('/users');
+});
 
-    res.render('users', {
-        users: filteredUsers,
-        currentUser: req.session.user,
-        totalPages: 1,
-        currentPage: 1,
-        search,
-        filter
-    });
+// حظر
+app.post('/users/ban', requireFounder, (req, res) => {
+    const { email } = req.body;
+    const user = users.find(u => u.email === email);
+    if (user) {
+        user.banned = true;
+        saveData(usersPath, users);
+        addLog("حظر مستخدم", email, req.session.user);
+    }
+    res.redirect('/users');
+});
+
+// فك الحظر
+app.post('/users/unban', requireFounder, (req, res) => {
+    const { email } = req.body;
+    const user = users.find(u => u.email === email);
+    if (user) {
+        user.banned = false;
+        saveData(usersPath, users);
+        addLog("فك حظر مستخدم", email, req.session.user);
+    }
+    res.redirect('/users');
+});
+
+// حذف
+app.post('/users/delete', requireFounder, (req, res) => {
+    const { email } = req.body;
+    users = users.filter(u => u.email !== email);
+    saveData(usersPath, users);
+    addLog("حذف مستخدم", email, req.session.user);
+    res.redirect('/users');
 });
 
 // ================== ADMIN (إدارة القواعد) ==================
