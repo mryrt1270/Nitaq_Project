@@ -4,7 +4,14 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const fs = require('fs');
+const OpenAI = require("openai");
 
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+// ذاكرة مؤقتة لطلبات ناطق
+const pendingRules = {};
 const app = express();
 const PORT = process.env.PORT || 30000;
 
@@ -103,6 +110,14 @@ function addLog(action, target, byUser) {
         time: new Date().toLocaleString()
     });
     saveData(logsPath, auditLogs);
+}
+
+function isDuplicateRule(rule) {
+    return rules.some(r =>
+        r.sector === rule.sector &&
+        r.entity === rule.entity &&
+        r.data.trim().toLowerCase() === rule.data.trim().toLowerCase()
+    );
 }
 
 // ================== AUTH ==================
@@ -315,6 +330,123 @@ app.post('/api/check', requireLogin, (req, res) => {
         time: response.time,
         verificationId: response.verificationId,
     });
+
+app.post('/api/chat', requireLogin, async (req, res) => {
+
+    try {
+        const { message } = req.body;
+        const user = req.session.user;
+
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content: `
+أنت مساعد اسمه "ناطق".
+
+إذا طلب المستخدم إضافة قاعدة:
+ارجع JSON فقط:
+
+{
+  "action": "suggest_rule",
+  "sector": "...",
+  "entity": "...",
+  "data": "...",
+  "allowed": true
+}
+`
+                },
+                { role: "user", content: message }
+            ]
+        });
+
+        const reply = completion.choices[0].message.content;
+
+        let parsed;
+        try {
+            parsed = JSON.parse(reply);
+        } catch {
+            return res.json({ reply });
+        }
+
+        // ✨ إذا اقتراح قاعدة
+        if (parsed.action === "suggest_rule") {
+
+            if (user.role !== "admin" && user.role !== "founder") {
+                return res.json({ reply: "❌ هذه الميزة للإدارة فقط" });
+            }
+
+            pendingRules[user.email] = parsed;
+
+            return res.json({
+                reply:
+`📌 اقتراح قاعدة:
+
+القطاع: ${parsed.sector}
+الجهة: ${parsed.entity}
+الطلب: ${parsed.data}
+الحالة: ${parsed.allowed ? "مسموح" : "غير مسموح"}`,
+                actions: true
+            });
+        }
+
+        res.json({ reply });
+
+    } catch (err) {
+        console.error(err);
+        res.json({ reply: "صار خطأ 😅" });
+    }
+});
+
+
+app.post('/api/rule-action', requireAdmin, (req, res) => {
+
+    const { action } = req.body;
+    const user = req.session.user;
+    const pending = pendingRules[user.email];
+
+    if (!pending) {
+        return res.json({ reply: "❌ لا يوجد طلب" });
+    }
+
+    if (action === "cancel") {
+        delete pendingRules[user.email];
+        return res.json({ reply: "❌ تم الإلغاء" });
+    }
+
+    if (action === "approve") {
+
+        // 🚫 منع التكرار
+        if (isDuplicateRule(pending)) {
+            delete pendingRules[user.email];
+            return res.json({ reply: "⚠️ القاعدة موجودة مسبقًا" });
+        }
+
+        // 💾 حفظ
+        rules.push({
+            id: Date.now(),
+            sector: pending.sector,
+            entity: pending.entity,
+            data: pending.data,
+            allowed: pending.allowed
+        });
+
+        saveData(rulesPath, rules);
+
+        // 📝 لوق
+        addLog(
+            "إضافة قاعدة بواسطة ناطق",
+            `${pending.entity} - ${pending.data}`,
+            user
+        );
+
+        delete pendingRules[user.email];
+
+        return res.json({ reply: "✅ تمت إضافة القاعدة" });
+    }
+
+});
 
 
     // ===== نظام الإنجازات =====

@@ -9,6 +9,16 @@
 <link rel="stylesheet" href="/style.css">
 
 <style>
+    .video-bg{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    z-index: -1; /* هذا أهم سطر 🔥 */
+}
+
 .home-container{
     padding:140px 40px 80px;
     max-width:1100px;
@@ -144,12 +154,160 @@
             <span>نسبة الطلبات غير المتوافقة</span>
         </div>
 
+        <div style="position:fixed;bottom:20px;left:20px;background:red;color:white;z-index:999999;padding:10px;">
+TEST BUTTON
+</div>
+
         <div class="hero-stat">
             <strong><%= user.role === "founder" ? "المؤسس" : user.role === "admin" ? "أدمن" : "مستخدم" %></strong>
             <span>نوع الحساب</span>
         </div>
     </div>
 </section>
+
+<div class="chat-btn" onclick="toggleChat()">💬</div>
+
+<div class="chat-box" id="chatBox">
+    <div class="chat-header">ناطق 🤖</div>
+
+    <div id="chatMessages" class="chat-messages"></div>
+
+    <div class="chat-input">
+        <input id="chatInput" placeholder="اكتب سؤالك..." />
+        <button onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
+<style>
+.chat-btn{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    background:white;
+    color:black;
+    padding:14px;
+    border-radius:50%;
+    cursor:pointer;
+    z-index:99999; /* مهم جدًا */
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
+}
+
+.chat-box{
+    position:fixed;
+    bottom:80px;
+    left:20px;
+    width:300px;
+    height:400px;
+    background:#111;
+    border-radius:15px;
+    display:none;
+    flex-direction:column;
+    z-index:99999; /* نفس الشي */
+}
+
+.chat-header{
+    padding:10px;
+    background:#222;
+}
+
+.chat-messages{
+    flex:1;
+    padding:10px;
+    overflow:auto;
+}
+
+.chat-input{
+    display:flex;
+}
+
+.chat-input input{
+    flex:1;
+    padding:10px;
+}
+
+.chat-input button{
+    padding:10px;
+}
+
+.chat-btn{
+    right:20px;
+    left:auto;
+}
+
+</style>
+
+<script>
+
+function toggleChat(){
+    const box = document.getElementById('chatBox');
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+}
+
+async function sendMessage(){
+
+    const input = document.getElementById('chatInput');
+    const messages = document.getElementById('chatMessages');
+
+    const text = input.value.trim();
+    if(!text) return;
+
+    messages.innerHTML += `<div>👤 ${text}</div>`;
+    input.value = "";
+
+    const res = await fetch('/api/chat',{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ message:text })
+    });
+
+    const data = await res.json();
+
+    messages.innerHTML += `<div>🤖 ${data.reply}</div>`;
+
+    // 🔥 أزرار الأدمن
+    if(data.actions){
+        messages.innerHTML += `
+            <div style="margin-top:10px;">
+                <button onclick="approveRule()">✅ إضافة</button>
+                <button onclick="cancelRule()">❌ إلغاء</button>
+            </div>
+        `;
+    }
+
+    messages.scrollTop = messages.scrollHeight;
+}
+
+async function approveRule(){
+
+    const messages = document.getElementById('chatMessages');
+
+    const res = await fetch('/api/rule-action',{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ action:"approve" })
+    });
+
+    const data = await res.json();
+
+    messages.innerHTML += `<div>🤖 ${data.reply}</div>`;
+}
+
+async function cancelRule(){
+
+    const messages = document.getElementById('chatMessages');
+
+    const res = await fetch('/api/rule-action',{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ action:"cancel" })
+    });
+
+    const data = await res.json();
+
+    messages.innerHTML += `<div>🤖 ${data.reply}</div>`;
+}
+
+</script>
 
 </body>
 </html>
