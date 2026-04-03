@@ -1221,3 +1221,25 @@ footer {
     border:1px solid rgba(239,68,68,0.4);
     font-size:14px;
 }
+.user-actions-dropdown{
+    position: relative;
+    display: inline-block;
+    z-index: 10;
+}
+
+.actions-menu{
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    min-width: 260px;
+    background: rgba(20,20,20,0.98);
+    border-radius: 14px;
+    padding: 12px;
+    z-index: 9999;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+}
+
+.users-table-wrapper{
+    overflow: visible; /* 🔥 مهم */
+}

@@ -573,6 +573,15 @@ app.get('/timeline', requireLogin, (req, res) => {
     });
 });
 
+filteredUsers.sort((a, b) => {
+    const order = {
+        founder: 0,
+        admin: 1,
+        user: 2
+    };
+
+    return order[a.role] - order[b.role];
+});
 
 // ================== START ==================
 
