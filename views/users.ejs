@@ -7,144 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 
-<style>
-.users-table-wrapper{
-    overflow: visible !important;
-    position: relative;
-    z-index: 1;
-}
-
-.users-table{
-    overflow: visible !important;
-}
-
-.users-table tbody tr{
-    position: relative;
-}
-
-.users-table td{
-    overflow: visible !important;
-}
-
-.user-actions-dropdown{
-    position: relative;
-    display: inline-block;
-    z-index: 50;
-}
-
-.main-action-btn{
-    padding: 10px 16px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.14);
-    background: rgba(255,255,255,0.08);
-    color: white;
-    cursor: pointer;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    backdrop-filter: blur(12px);
-    transition: all .25s ease;
-    min-width: 150px;
-}
-
-.main-action-btn:hover{
-    background: rgba(255,255,255,0.14);
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(0,0,0,.35);
-}
-
-.actions-menu{
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    min-width: 320px;
-    background: rgba(18,18,18,0.97);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 18px;
-    padding: 14px;
-    z-index: 99999;
-    box-shadow: 0 20px 45px rgba(0,0,0,0.50);
-}
-
-.actions-menu.show{
-    display: block;
-    animation: menuFade .18s ease;
-}
-
-@keyframes menuFade{
-    from{
-        opacity: 0;
-        transform: translateY(6px);
-    }
-    to{
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.action-item{
-    margin-bottom: 10px;
-}
-
-.action-item:last-child{
-    margin-bottom: 0;
-}
-
-.action-item form{
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
-    margin: 0;
-}
-
-.action-item input,
-.action-item select{
-    flex: 1;
-    min-width: 140px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.06);
-    color: white;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-}
-
-.action-item select option{
-    color: black;
-}
-
-.action-btn{
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.14);
-    background: rgba(255,255,255,0.08);
-    color: white;
-    cursor: pointer;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    transition: .2s ease;
-}
-
-.action-btn:hover{
-    background: rgba(255,255,255,0.14);
-}
-
-.action-btn.danger,
-.action-btn.delete{
-    background: rgba(239,68,68,0.18);
-    border-color: rgba(239,68,68,0.35);
-}
-
-.action-btn.danger:hover,
-.action-btn.delete:hover{
-    background: rgba(239,68,68,0.28);
-}
-
-.founder-label{
-    color: #facc15;
-    font-weight: 700;
-}
-</style>
 </head>
 <body>
 
@@ -154,12 +16,16 @@
 
 <nav class="navbar">
     <div class="logo">Nitaq</div>
+
     <div class="nav-links">
         <a href="/dashboard">لوحة التحكم</a>
         <a href="/admin">إدارة القواعد</a>
         <a href="/logs">سجل التعديلات</a>
     </div>
-    <button class="nav-btn" onclick="window.location.href='/logout'">تسجيل الخروج</button>
+
+    <button class="nav-btn" onclick="window.location.href='/logout'">
+        تسجيل الخروج
+    </button>
 </nav>
 
 <section class="dash-container">
@@ -171,15 +37,18 @@
         </div>
     </div>
 
+    <!-- البحث -->
     <div class="users-search">
         <form method="GET" action="/users">
             <input type="text" name="search" placeholder="ابحث بالإيميل..." value="<%= search || '' %>">
-            <button class="btn primary" type="submit">بحث</button>
+            <button class="btn primary">بحث</button>
         </form>
     </div>
 
+    <!-- الجدول -->
     <div class="users-table-wrapper">
         <table class="users-table">
+
             <thead>
                 <tr>
                     <th>الاسم</th>
@@ -191,18 +60,21 @@
             </thead>
 
             <tbody>
-                <% users.forEach(function(u){ 
-                    const safeId = u.email.replace(/[@.]/g, '_');
-                %>
+
+                <% users.forEach(function(u){ %>
                 <tr>
+
+                    <!-- الاسم -->
                     <td>
-                        <a href="/users/<%= encodeURIComponent(u.email) %>" class="user-link">
-                            <%= u.name %>
-                        </a>
+                        <%= u.name %>
                     </td>
 
-                    <td><%= u.email %></td>
+                    <!-- الايميل -->
+                    <td>
+                        <%= u.email %>
+                    </td>
 
+                    <!-- الدور -->
                     <td>
                         <span class="role-tag <%= u.role %>">
                             <% if (u.role === "founder") { %>
@@ -215,96 +87,62 @@
                         </span>
                     </td>
 
+                    <!-- الحالة -->
                     <td class="<%= u.banned ? 'status-banned' : 'status-active' %>">
                         <%= u.banned ? "محظور" : "نشط" %>
                     </td>
 
+                    <!-- الإدارة -->
                     <td style="text-align:center;">
+
                         <% if (u.role !== "founder") { %>
 
-                        <div class="user-actions-dropdown">
-                            <button type="button" class="main-action-btn" onclick="toggleActions.call(this, '<%= safeId %>')"
-                                إدارة <%= u.name %> ▼
-                            </button>
+                        <!-- تغيير الاسم -->
+                        <form class="inline-form" method="POST" action="/users/change-name">
+                            <input type="hidden" name="email" value="<%= u.email %>">
+                            <input type="text" name="newName" placeholder="الاسم">
+                            <button class="table-btn">حفظ</button>
+                        </form>
 
-                            <div class="actions-menu" id="actions-<%= safeId %>">
+                        <!-- تغيير الدور -->
+                        <form class="inline-form" method="POST" action="/users/role">
+                            <input type="hidden" name="email" value="<%= u.email %>">
+                            <select name="role">
+                                <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>مستخدم</option>
+                                <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>أدمن</option>
+                            </select>
+                            <button class="table-btn">تحديث</button>
+                        </form>
 
-                                <div class="action-item">
-                                    <form method="POST" action="/users/change-name">
-                                        <input type="hidden" name="email" value="<%= u.email %>">
-                                        <input type="text" name="newName" placeholder="الاسم الجديد" required>
-                                        <button type="submit" class="action-btn">حفظ</button>
-                                    </form>
-                                </div>
+                        <!-- حظر -->
+                        <form class="inline-form" method="POST" action="/users/ban">
+                            <input type="hidden" name="email" value="<%= u.email %>">
+                            <button class="table-btn danger-btn">حظر</button>
+                        </form>
 
-                                <div class="action-item">
-                                    <form method="POST" action="/users/role">
-                                        <input type="hidden" name="email" value="<%= u.email %>">
-                                        <select name="role">
-                                            <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>مستخدم</option>
-                                            <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>أدمن</option>
-                                        </select>
-                                        <button type="submit" class="action-btn">تحديث</button>
-                                    </form>
-                                </div>
-
-                                <div class="action-item">
-                                    <form method="POST" action="/users/ban">
-                                        <input type="hidden" name="email" value="<%= u.email %>">
-                                        <button type="submit" class="action-btn danger">حظر</button>
-                                    </form>
-                                </div>
-
-                                <div class="action-item">
-                                    <form method="POST" action="/users/delete" onsubmit="return confirm('هل أنت متأكد من حذف هذا الحساب؟');">
-                                        <input type="hidden" name="email" value="<%= u.email %>">
-                                        <button type="submit" class="action-btn delete">حذف نهائي</button>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
+                        <!-- حذف -->
+                        <form class="inline-form" method="POST" action="/users/delete" onsubmit="return confirm('متأكد من الحذف؟');">
+                            <input type="hidden" name="email" value="<%= u.email %>">
+                            <button class="table-btn danger-btn">حذف</button>
+                        </form>
 
                         <% } else { %>
-                            <span class="founder-label">المؤسس</span>
+                            <span style="color: gold; font-weight: bold;">
+                                المؤسس
+                            </span>
                         <% } %>
+
                     </td>
+
                 </tr>
                 <% }) %>
+
             </tbody>
+
         </table>
     </div>
 
 </section>
-
-<script>
-function toggleActions(id){
-    const btn = event.currentTarget;
-    const menu = document.getElementById('actions-' + id);
-
-    if (!menu) return;
-
-    // اقفل كل القوائم
-    document.querySelectorAll('.actions-menu').forEach(m => {
-        m.style.display = "none";
-    });
-
-    const rect = btn.getBoundingClientRect();
-
-    menu.style.top = (rect.bottom + 8) + "px";
-    menu.style.left = (rect.left) + "px";
-
-    menu.style.display = "block";
-}
-
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.user-actions-dropdown')) {
-        document.querySelectorAll('.actions-menu').forEach(m => {
-            m.classList.remove('show');
-        });
-    }
-});
-</script>
 
 </body>
 </html>
