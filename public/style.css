@@ -1488,3 +1488,13 @@ footer {
         display: none !important;
     }
 }
+.action-card{
+    cursor: pointer;
+    position: relative;
+    z-index: 5;
+}
+
+.video-bg,
+.light-lines{
+    pointer-events: none;
+}
