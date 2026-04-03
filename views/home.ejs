@@ -154,9 +154,6 @@
             <span>نسبة الطلبات غير المتوافقة</span>
         </div>
 
-        <div style="position:fixed;bottom:20px;left:20px;background:red;color:white;z-index:999999;padding:10px;">
-TEST BUTTON
-</div>
 
         <div class="hero-stat">
             <strong><%= user.role === "founder" ? "المؤسس" : user.role === "admin" ? "أدمن" : "مستخدم" %></strong>
@@ -194,15 +191,28 @@ TEST BUTTON
 
 .chat-box{
     position:fixed;
-    bottom:80px;
-    left:20px;
-    width:300px;
-    height:400px;
-    background:#111;
-    border-radius:15px;
-    display:none;
-    flex-direction:column;
-    z-index:99999; /* نفس الشي */
+    bottom:100px;
+    right:25px;
+    width:320px;
+    height:450px;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(25px);
+    border-radius:20px;
+    display:flex;
+
+    opacity:0; /* مخفي */
+    transform:translateY(30px); /* تحت شوي */
+    pointer-events:none;
+
+    transition: all 0.3s ease;
+
+    z-index:99999;
+}
+
+.chat-box.active{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
 }
 
 .chat-header{
@@ -240,7 +250,7 @@ TEST BUTTON
 
 function toggleChat(){
     const box = document.getElementById('chatBox');
-    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+    box.classList.toggle('active');
 }
 
 async function sendMessage(){
