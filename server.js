@@ -404,6 +404,33 @@ app.get('/profile', requireLogin, (req, res) => {
 
 // ================== USERS ==================
 
+app.get('/users', requireFounder, (req, res) => {
+
+    const search = req.query.search || "";
+    const filter = req.query.filter || "all";
+
+    let filteredUsers = [...users];
+
+    if (search) {
+        filteredUsers = filteredUsers.filter(u =>
+            u.email.toLowerCase().includes(search.toLowerCase())
+        );
+    }
+
+    if (filter !== "all") {
+        filteredUsers = filteredUsers.filter(u => u.role === filter);
+    }
+
+    res.render('users', {
+        users: filteredUsers,
+        currentUser: req.session.user,
+        totalPages: 1,
+        currentPage: 1,
+        search,
+        filter
+    });
+});
+
 // تغيير الاسم
 app.post('/users/change-name', requireFounder, (req, res) => {
     const { email, newName } = req.body;
