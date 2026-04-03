@@ -202,19 +202,17 @@ app.get('/logout', (req, res) => {
 
 // ================== HOME ==================
 
-app.get('/home', (req, res) => {
-
+app.get('/home', requireLogin, (req, res) => {
     const user = req.session.user;
 
-    // تأكد عندك مصفوفة requests
     const userRequests = requests.filter(r => r.userEmail === user.email);
 
     const totalRequests = userRequests.length;
 
     const rejected = userRequests.filter(r => !r.allowed).length;
 
-    const rejectionRate = totalRequests === 0 
-        ? 0 
+    const rejectionRate = totalRequests === 0
+        ? 0
         : Math.round((rejected / totalRequests) * 100);
 
     const recentRequests = userRequests.slice(-5).reverse();
@@ -225,8 +223,8 @@ app.get('/home', (req, res) => {
         rejectionRate,
         recentRequests
     });
-
 });
+
 
 app.post('/profile/change-password', requireLogin, (req, res) => {
 
@@ -342,33 +340,15 @@ app.post('/api/check', requireLogin, (req, res) => {
     res.json(response);
 });
 
-// ================== SECRET PAGE ==================
+// ================== SERVICES PAGE ==================
 
 app.get('/services', requireLogin, (req, res) => {
-
-    const user = req.session.user;
-
-    const userRequests = requests.filter(r => r.userEmail === user.email);
-
-    const totalRequests = userRequests.length;
-
-    const rejected = userRequests.filter(r => !r.allowed).length;
-
-    const rejectionRate = totalRequests === 0 
-        ? 0 
-        : Math.round((rejected / totalRequests) * 100);
-
-    const recentRequests = userRequests.slice(-5).reverse();
-
     res.render('services', {
-        user,
-        rules,
-        totalRequests,
-        rejectionRate,
-        recentRequests
+        user: req.session.user,
+        rules
     });
-
 });
+
 // ================== LOGS ==================
 
 app.get('/logs', requireFounder, (req, res) => {
@@ -394,6 +374,35 @@ app.get('/profile', requireLogin, (req, res) => {
         error: null
     });
 
+});
+
+// ================== SECRET PAGE ==================
+
+app.get('/secret', requireLogin, (req, res) => {
+    const {
+        allowed,
+        sector,
+        entity,
+        data,
+        reason,
+        time,
+        verificationId
+    } = req.query;
+
+    if (typeof allowed === "undefined") {
+        return res.redirect('/services');
+    }
+
+    res.render('secret', {
+        user: req.session.user,
+        allowed: allowed === "true",
+        sector,
+        entity,
+        data,
+        reason,
+        time,
+        verificationId
+    });
 });
 
 // ================== USERS ==================
