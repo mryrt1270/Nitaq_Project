@@ -352,36 +352,20 @@ app.post('/api/check', requireLogin, (req, res) => {
 
 // ================== SECRET PAGE ==================
 
-app.get('/secret', requireLogin, (req, res) => {
+app.get('/services', requireLogin, (req, res) => {
 
-    const {
-        allowed,
-        sector,
-        entity,
-        data,
-        reason,
-        time,
-        verificationId
-    } = req.query;
+    const user = req.session.user;
 
-    if (typeof allowed === "undefined") {
-        return res.redirect('/services');
-    }
+    const userRequests = requests.filter(r => r.userEmail === user.email);
 
-    res.render('secret', {
-        user: req.session.user,
-        allowed: allowed === "true",
-        sector,
-        entity,
-        data,
-        reason,
-        time,
-        verificationId,
-        lawReference: "",
-        description: ""
+    const totalRequests = userRequests.length;
+
+    res.render('services', {
+        user,
+        rules,
+        totalRequests   // 👈 هذا المهم
     });
 });
-
 // ================== LOGS ==================
 
 app.get('/logs', requireFounder, (req, res) => {
