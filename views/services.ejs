@@ -273,26 +273,28 @@
         <p>ابدأ باستخدام منصة نطاق لإدارة والتحقق من الطلبات النظامية بكل سهولة.</p>
     </div>
 
-    <div class="quick-actions">
+    
 
-        <div class="action-card" onclick="window.location.href='/services'">
-            <h3>🔎 بدء التحقق</h3>
-            <p>تحقق من مشروعية طلب جهة معينة فورًا.</p>
-        </div>
+  <div class="quick-actions">
 
-        <div class="action-card" onclick="window.location.href='/timeline'">
-            <h3>📜 السجل</h3>
-            <p>عرض جميع عمليات التحقق السابقة.</p>
-        </div>
+    <a href="/services" class="action-card">
+        <h3>🔎 بدء التحقق</h3>
+        <p>تحقق من مشروعية طلب جهة معينة فورًا.</p>
+    </a>
 
-        <% if(user.role === "admin" || user.role === "founder"){ %>
-        <div class="action-card" onclick="window.location.href='/dashboard'">
-            <h3>🛠 لوحة التحكم</h3>
-            <p>إدارة القواعد والمستخدمين.</p>
-        </div>
-        <% } %>
+    <a href="/timeline" class="action-card">
+        <h3>📜 السجل</h3>
+        <p>عرض جميع عمليات التحقق السابقة.</p>
+    </a>
 
-    </div>
+    <% if(user.role === "admin" || user.role === "founder"){ %>
+    <a href="/dashboard" class="action-card">
+        <h3>🛠 لوحة التحكم</h3>
+        <p>إدارة القواعد والمستخدمين.</p>
+    </a>
+    <% } %>
+
+</div>
 
     <div class="stats-box">
         <div class="hero-stat">
@@ -316,7 +318,7 @@
     <div class="recent-box">
         <h3>آخر 5 عمليات تحقق</h3>
 
-        <% if(recentRequests.length === 0){ %>
+        <% if(!recentRequests || recentRequests.length === 0){ %>
             <div class="no-activity">
                 لم تقم بأي عملية تحقق حتى الآن.
             </div>

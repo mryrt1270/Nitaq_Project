@@ -354,21 +354,21 @@ app.get('/services', requireLogin, (req, res) => {
 
     const rejected = userRequests.filter(r => !r.allowed).length;
 
-    const rejectionRate = totalRequests === 0
-        ? 0
+    const rejectionRate = totalRequests === 0 
+        ? 0 
         : Math.round((rejected / totalRequests) * 100);
 
-    const recentRequests = userRequests.slice(-5).reverse(); // 👈 هذا الجديد
+    const recentRequests = userRequests.slice(-5).reverse();
 
     res.render('services', {
         user,
         rules,
         totalRequests,
         rejectionRate,
-        recentRequests   // 👈 مهم جدًا
+        recentRequests
     });
-});
 
+});
 // ================== LOGS ==================
 
 app.get('/logs', requireFounder, (req, res) => {
