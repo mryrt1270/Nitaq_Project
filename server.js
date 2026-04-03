@@ -358,13 +358,17 @@ app.get('/services', requireLogin, (req, res) => {
         ? 0
         : Math.round((rejected / totalRequests) * 100);
 
+    const recentRequests = userRequests.slice(-5).reverse(); // 👈 هذا الجديد
+
     res.render('services', {
         user,
         rules,
         totalRequests,
-        rejectionRate   // 👈 هذا الجديد
+        rejectionRate,
+        recentRequests   // 👈 مهم جدًا
     });
 });
+
 // ================== LOGS ==================
 
 app.get('/logs', requireFounder, (req, res) => {
