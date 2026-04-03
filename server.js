@@ -201,28 +201,30 @@ app.get('/logout', (req, res) => {
 
 // ================== HOME ==================
 
-app.get('/home', requireLogin, (req, res) => {
+app.get('/home', (req, res) => {
 
-    const userRequests = requests.filter(
-        r => r.userEmail === req.session.user.email
-    );
+    const user = req.session.user;
+
+    // تأكد عندك مصفوفة requests
+    const userRequests = requests.filter(r => r.userEmail === user.email);
+
+    const totalRequests = userRequests.length;
+
+    const rejected = userRequests.filter(r => !r.allowed).length;
+
+    const rejectionRate = totalRequests === 0 
+        ? 0 
+        : Math.round((rejected / totalRequests) * 100);
 
     const recentRequests = userRequests.slice(-5).reverse();
 
-    const totalUserRequests = userRequests.length;
-
-    const rejectedCount = userRequests.filter(r => !r.allowed).length;
-
-    const rejectionRate = totalUserRequests
-        ? Math.round((rejectedCount / totalUserRequests) * 100)
-        : 0;
-
     res.render('home', {
-        user: req.session.user,
-        totalRequests: totalUserRequests,
+        user,
+        totalRequests,
         rejectionRate,
         recentRequests
     });
+
 });
 
 app.post('/profile/change-password', requireLogin, (req, res) => {
