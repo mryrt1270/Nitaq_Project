@@ -283,14 +283,6 @@ app.post('/profile/change-password', requireLogin, (req, res) => {
     });
 });
 
-// ================== SERVICES ==================
-
-app.get('/services', requireLogin, (req, res) => {
-    res.render('services', {
-        user: req.session.user,
-        rules
-    });
-});
 
 app.post('/api/check', requireLogin, (req, res) => {
 
