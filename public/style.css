@@ -25,17 +25,19 @@ body {
 .navbar {
     position: fixed;
     top: 0;
+    right: 0;
     width: 100%;
-    padding: 20px 60px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    /* نشيل الخلفية فقط */
-    background: transparent;
-    backdrop-filter: none;
+    padding: 20px 60px;
 
-    z-index: 10;
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(12px);
+
+    z-index: 999999;
 }
 
 .nav-links {
@@ -1293,4 +1295,19 @@ footer {
 
 .users-table tr{
     position: relative;
+}
+.actions-menu{
+    position: fixed;
+    display: none;
+    min-width: 260px;
+
+    background: rgba(15,15,15,0.85);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+
+    padding: 12px;
+    z-index: 999999;
+
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }

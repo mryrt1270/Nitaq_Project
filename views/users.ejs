@@ -53,8 +53,8 @@
 
 .actions-menu{
     display: none;
-    position: absolute;
-    top: calc(100% + 10px);
+    position: fixed;
+    top: 0;
     right: 0;
     min-width: 320px;
     background: rgba(18,18,18,0.97);
@@ -223,7 +223,7 @@
                         <% if (u.role !== "founder") { %>
 
                         <div class="user-actions-dropdown">
-                            <button type="button" class="main-action-btn" onclick="toggleActions('<%= safeId %>')">
+                            <button type="button" class="main-action-btn" onclick="toggleActions.call(this, '<%= safeId %>')"
                                 إدارة <%= u.name %> ▼
                             </button>
 
@@ -279,14 +279,22 @@
 
 <script>
 function toggleActions(id){
+    const btn = event.currentTarget;
     const menu = document.getElementById('actions-' + id);
+
     if (!menu) return;
 
+    // اقفل كل القوائم
     document.querySelectorAll('.actions-menu').forEach(m => {
-        if (m !== menu) m.classList.remove('show');
+        m.style.display = "none";
     });
 
-    menu.classList.toggle('show');
+    const rect = btn.getBoundingClientRect();
+
+    menu.style.top = (rect.bottom + 8) + "px";
+    menu.style.left = (rect.left) + "px";
+
+    menu.style.display = "block";
 }
 
 document.addEventListener('click', (e) => {
