@@ -1299,15 +1299,96 @@ footer {
 .actions-menu{
     position: fixed;
     display: none;
-    min-width: 260px;
+    min-width: 240px;
 
-    background: rgba(15,15,15,0.85);
-    backdrop-filter: blur(18px);
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
+    border-radius: 20px;
 
-    padding: 12px;
+    padding: 14px;
     z-index: 999999;
 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+}
+
+/* ترتيب العناصر */
+.action-item{
+    margin-bottom: 12px;
+}
+
+/* الفورم */
+.action-item form{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* الانبوت */
+.action-item input,
+.action-item select{
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    color: white;
+}
+
+/* الأزرار */
+.action-btn{
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    font-size: 13px;
+    background: rgba(255,255,255,0.06);
+    color: white;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.action-btn:hover{
+    background: rgba(255,255,255,0.15);
+}
+
+/* ألوان احترافية */
+.action-btn.danger{
+    background: rgba(239,68,68,0.15);
+}
+
+.action-btn.danger:hover{
+    background: rgba(239,68,68,0.3);
+}
+
+.action-btn.delete{
+    background: rgba(220,38,38,0.2);
+}
+
+.action-btn.delete:hover{
+    background: rgba(220,38,38,0.4);
+}
+.main-action-btn{
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+
+    transition: 0.2s;
+}
+
+.main-action-btn:hover{
+    background: rgba(255,255,255,0.15);
+}
+.actions-menu::before{
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    background: rgba(10,10,10,0.85);
+    transform: rotate(45deg);
+    border-left: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,0.08);
 }
