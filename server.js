@@ -1,10 +1,11 @@
 // ================== SETUP ==================
 const express = require('express');
+const app = express(); // 🔥 هذا السطر الناقص
+
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const fs = require('fs');
-
 
 
 // ================== FILE STORAGE ==================
