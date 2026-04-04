@@ -162,20 +162,8 @@
     </div>
 </section>
 
-<div class="chat-btn" onclick="toggleChat()">💬</div>
 
-<div class="chat-box" id="chatBox">
-    <div class="chat-header">ناطق 🤖</div>
-
-    <div id="chatMessages" class="chat-messages"></div>
-
-    <div class="chat-input">
-        <input id="chatInput" placeholder="اكتب سؤالك..." />
-        <button onclick="sendMessage()">➤</button>
-    </div>
-</div>
-
-<div class="natiq-chat" id="chatBox">
+<div class="natiq-chat" id="natiqChat">
 
   <div class="chat-header">
     <span>ناطق 🤖</span>
@@ -344,10 +332,6 @@
     transition:.25s ease;
 }
 
-.chat-btn:hover{
-    transform:scale(1.06);
-}
-
 .natiq-reminder{
     position:fixed;
     bottom:100px;
@@ -386,11 +370,6 @@
         height:420px;
     }
 
-    .chat-btn{
-        right:14px;
-        bottom:18px;
-    }
-
     .natiq-reminder{
         right:14px;
         left:14px;
@@ -402,7 +381,7 @@
 
 <script>
 function toggleChat(){
-    document.getElementById('chatBox').classList.toggle('active');
+    document.getElementById('natiqChat').classList.toggle('active');
 }
 
 function appendMessage(type, text){
