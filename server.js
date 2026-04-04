@@ -336,7 +336,8 @@ requests.push({
 
 // ✅ اقفل هنا
 res.json(response);
- // 🔥 هذا المهم
+
+});
 
 app.post('/api/chat', requireLogin, async (req, res) => {
 
@@ -345,7 +346,7 @@ app.post('/api/chat', requireLogin, async (req, res) => {
         const user = req.session.user;
 
       const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+    model: "gpt-4o",
     messages: [
     {
         role: "system",
@@ -407,7 +408,7 @@ app.post('/api/chat', requireLogin, async (req, res) => {
         res.json({ reply });
 
     } catch (err) {
-        console.error(err);
+        console.error("CHAT ERROR:", err);
         res.json({ reply: "صار خطأ 😅" });
     }
 });
