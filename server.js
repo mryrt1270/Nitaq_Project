@@ -334,9 +334,8 @@ requests.push({
     verificationId: response.verificationId,
 });
 
-// ✅ اقفل هنا
+saveData(requestsPath, requests);
 res.json(response);
-
 });
 
 app.post('/api/chat', requireLogin, async (req, res) => {
@@ -459,31 +458,6 @@ app.post('/api/rule-action', requireAdmin, (req, res) => {
 
         return res.json({ reply: "✅ تمت إضافة القاعدة" });
     }
-
-});
-
-
-    // ===== نظام الإنجازات =====
-    const user = users.find(u => u.email === req.session.user.email);
-    if (!user.achievements) user.achievements = [];
-
-    const userTotal = requests.filter(
-        r => r.userEmail === user.email
-    ).length;
-
-    if (userTotal === 1 && !user.achievements.includes("أول عملية تحقق"))
-        user.achievements.push("أول عملية تحقق");
-
-    if (userTotal === 10 && !user.achievements.includes("10 عمليات تحقق"))
-        user.achievements.push("10 عمليات تحقق");
-
-    if (userTotal === 50 && !user.achievements.includes("50 عملية تحقق"))
-        user.achievements.push("50 عملية تحقق");
-
-    saveData(usersPath, users);
-    saveData(requestsPath, requests);
-
-    res.json(response);
 
 });
 
