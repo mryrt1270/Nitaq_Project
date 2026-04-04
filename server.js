@@ -1,7 +1,7 @@
 // ================== SETUP ==================
 const express = require('express');
 const app = express(); // 🔥 هذا السطر الناقص
-
+const PORT = process.env.PORT || 30000;
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
