@@ -320,16 +320,21 @@ app.post('/api/check', requireLogin, (req, res) => {
         time: new Date().toLocaleString(),
         verificationId: "NTQ-" + Date.now()
     };
+    
+requests.push({
+    userEmail: req.session.user.email,
+    sector,
+    entity,
+    data,
+    allowed,
+    time: response.time,
+    verificationId: response.verificationId,
+});
 
-    requests.push({
-        userEmail: req.session.user.email,
-        sector,
-        entity,
-        data,
-        allowed,
-        time: response.time,
-        verificationId: response.verificationId,
-    });
+// ✅ اقفل هنا
+res.json(response);
+
+}); // 🔥 هذا المهم
 
 app.post('/api/chat', requireLogin, async (req, res) => {
 
