@@ -10,6 +10,9 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+console.log("API KEY:", process.env.OPENAI_API_KEY);
+
+
 // ذاكرة مؤقتة لطلبات ناطق
 const pendingRules = {};
 const app = express();
@@ -333,7 +336,6 @@ requests.push({
 
 // ✅ اقفل هنا
 res.json(response);
-
  // 🔥 هذا المهم
 
 app.post('/api/chat', requireLogin, async (req, res) => {
@@ -342,16 +344,19 @@ app.post('/api/chat', requireLogin, async (req, res) => {
         const { message } = req.body;
         const user = req.session.user;
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [
-                {
-                    role: "system",
-                    content: `
+      const completion = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+    {
+        role: "system",
+        content: `
 أنت مساعد اسمه "ناطق".
 
+- رد بشكل طبيعي وذكي.
+- تكلم عربي.
+
 إذا طلب المستخدم إضافة قاعدة:
-ارجع JSON فقط:
+ارجع JSON فقط بهذا الشكل:
 
 {
   "action": "suggest_rule",
@@ -361,12 +366,15 @@ app.post('/api/chat', requireLogin, async (req, res) => {
   "allowed": true
 }
 `
-                },
-                { role: "user", content: message }
-            ]
+    },
+    {
+        role: "user",
+        content: message
+    }
+]
         });
 
-        const reply = completion.choices[0].message.content;
+        const reply = completion.choices?.[0]?.message?.content || "ما فهمت 😅";
 
         let parsed;
         try {
