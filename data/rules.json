@@ -1,86 +1,70 @@
 [
-  {
-    "id": 1775027087401,
-    "sector": "صحي",
-    "entity": "د.سليمان الحبيب",
-    "data": "تأمين طبي",
-    "allowed": true
-  },
-  {
-    "id": 1775027120698,
-    "sector": "صحي",
-    "entity": "د.سليمان الفقيه",
-    "data": "تأمين طبي",
-    "allowed": true
-  },
-  {
-    "id": 1775027174830,
-    "sector": "مالي",
-    "entity": "بنك الاهلي",
-    "data": "تعريف براتب",
-    "allowed": true
-  },
-  {
-    "id": 1775027208180,
-    "sector": "مالي",
-    "entity": "بنك الانماء",
-    "data": "تعريف براتب",
-    "allowed": true
-  },
-  {
-    "id": 1775027222291,
-    "sector": "مالي",
-    "entity": "بنك البلاد",
-    "data": "تعريف براتب",
-    "allowed": true
-  },
-  {
-    "id": 1775027359778,
-    "sector": "مالي",
-    "entity": "بنك السعودي الفرنسي",
-    "data": "تعريف براتب",
-    "allowed": true
-  },
-  {
-    "id": 1775027373694,
-    "sector": "مالي",
-    "entity": "بنك الامارات",
-    "data": "تعريف براتب",
-    "allowed": true
-  },
-  {
-    "id": 1775027383511,
-    "sector": "مالي",
-    "entity": "بنك الراجحي",
-    "data": "تعريف براتب",
-    "allowed": true
-  },
-  {
-    "id": 1775027610388,
-    "sector": "مالي",
-    "entity": "بنك الانماء",
-    "data": "قرض",
-    "allowed": true
-  },
-  {
-    "id": 1775027626847,
-    "sector": "مالي",
-    "entity": "بنك الراجحي",
-    "data": "قرض",
-    "allowed": true
-  },
-  {
-    "id": 1775027655413,
-    "sector": "مالي",
-    "entity": "بنك السعودي الفرنسي",
-    "data": "قرض",
-    "allowed": true
-  },
-  {
-    "id": 1775027743405,
-    "sector": "تعليمي",
-    "entity": "وزارة التعليم",
-    "data": "شهادة طالب منتظم",
-    "allowed": true
-  }
+  { "sector": "مالي", "entity": "بنك الراجحي", "data": "فتح حساب", "allowed": true },
+  { "sector": "مالي", "entity": "بنك الراجحي", "data": "تحويل محلي", "allowed": true },
+  { "sector": "مالي", "entity": "بنك الراجحي", "data": "قرض شخصي", "allowed": true },
+  { "sector": "مالي", "entity": "بنك الراجحي", "data": "قرض بدون تعريف راتب", "allowed": false },
+  { "sector": "مالي", "entity": "بنك الأهلي", "data": "فتح حساب", "allowed": true },
+  { "sector": "مالي", "entity": "بنك الأهلي", "data": "بطاقة ائتمانية", "allowed": true },
+  { "sector": "مالي", "entity": "بنك الأهلي", "data": "بطاقة بدون هوية", "allowed": false },
+  { "sector": "مالي", "entity": "بنك البلاد", "data": "فتح حساب", "allowed": true },
+  { "sector": "مالي", "entity": "بنك البلاد", "data": "تحويل دولي", "allowed": true },
+  { "sector": "مالي", "entity": "بنك البلاد", "data": "تحويل بدون تحقق", "allowed": false },
+  { "sector": "مالي", "entity": "بنك الإنماء", "data": "تمويل شخصي", "allowed": true },
+  { "sector": "مالي", "entity": "بنك الإنماء", "data": "تمويل بدون مستند", "allowed": false },
+
+  { "sector": "حكومي", "entity": "أبشر", "data": "إصدار هوية", "allowed": true },
+  { "sector": "حكومي", "entity": "أبشر", "data": "تجديد إقامة", "allowed": true },
+  { "sector": "حكومي", "entity": "أبشر", "data": "إصدار بدون بصمة", "allowed": false },
+  { "sector": "حكومي", "entity": "وزارة الداخلية", "data": "تجديد هوية", "allowed": true },
+  { "sector": "حكومي", "entity": "وزارة الداخلية", "data": "هوية بدون حضور", "allowed": false },
+  { "sector": "حكومي", "entity": "المرور", "data": "رخصة قيادة", "allowed": true },
+  { "sector": "حكومي", "entity": "المرور", "data": "رخصة بدون اختبار", "allowed": false },
+  { "sector": "حكومي", "entity": "منصة ناجز", "data": "توثيق عقد", "allowed": true },
+  { "sector": "حكومي", "entity": "منصة ناجز", "data": "توثيق بدون هوية", "allowed": false },
+
+  { "sector": "صحي", "entity": "وزارة الصحة", "data": "إجازة مرضية", "allowed": true },
+  { "sector": "صحي", "entity": "وزارة الصحة", "data": "تقرير طبي", "allowed": true },
+  { "sector": "صحي", "entity": "وزارة الصحة", "data": "إجازة بدون كشف", "allowed": false },
+  { "sector": "صحي", "entity": "مستشفى الحبيب", "data": "فحص طبي", "allowed": true },
+  { "sector": "صحي", "entity": "مستشفى الحبيب", "data": "تقرير بدون زيارة", "allowed": false },
+  { "sector": "صحي", "entity": "مستشفى دلة", "data": "تحليل دم", "allowed": true },
+  { "sector": "صحي", "entity": "مستشفى دلة", "data": "تشخيص بدون فحص", "allowed": false },
+
+  { "sector": "تعليمي", "entity": "جامعة الملك سعود", "data": "سجل أكاديمي", "allowed": true },
+  { "sector": "تعليمي", "entity": "جامعة الملك سعود", "data": "قبول جامعي", "allowed": true },
+  { "sector": "تعليمي", "entity": "جامعة الملك سعود", "data": "قبول بدون شهادة", "allowed": false },
+  { "sector": "تعليمي", "entity": "جامعة جدة", "data": "تسجيل", "allowed": true },
+  { "sector": "تعليمي", "entity": "جامعة جدة", "data": "تسجيل بدون مستند", "allowed": false },
+  { "sector": "تعليمي", "entity": "نور", "data": "تسجيل طالب", "allowed": true },
+  { "sector": "تعليمي", "entity": "نور", "data": "تسجيل بدون ولي أمر", "allowed": false },
+
+  { "sector": "خدمات", "entity": "شركة الكهرباء", "data": "عداد جديد", "allowed": true },
+  { "sector": "خدمات", "entity": "شركة الكهرباء", "data": "عداد بدون صك", "allowed": false },
+  { "sector": "خدمات", "entity": "شركة المياه", "data": "توصيل مياه", "allowed": true },
+  { "sector": "خدمات", "entity": "شركة المياه", "data": "توصيل بدون عقد", "allowed": false },
+  { "sector": "خدمات", "entity": "STC", "data": "شريحة", "allowed": true },
+  { "sector": "خدمات", "entity": "STC", "data": "شريحة بدون هوية", "allowed": false },
+  { "sector": "خدمات", "entity": "زين", "data": "اشتراك", "allowed": true },
+  { "sector": "خدمات", "entity": "زين", "data": "اشتراك بدون هوية", "allowed": false },
+
+  { "sector": "تجاري", "entity": "وزارة التجارة", "data": "سجل تجاري", "allowed": true },
+  { "sector": "تجاري", "entity": "وزارة التجارة", "data": "سجل بدون بيانات", "allowed": false },
+  { "sector": "تجاري", "entity": "منصة معروف", "data": "تسجيل متجر", "allowed": true },
+  { "sector": "تجاري", "entity": "منصة معروف", "data": "متجر بدون هوية", "allowed": false },
+
+  { "sector": "نقل", "entity": "أوبر", "data": "تسجيل سائق", "allowed": true },
+  { "sector": "نقل", "entity": "أوبر", "data": "تسجيل بدون رخصة", "allowed": false },
+  { "sector": "نقل", "entity": "كريم", "data": "تسجيل سائق", "allowed": true },
+  { "sector": "نقل", "entity": "كريم", "data": "تسجيل بدون مركبة", "allowed": false },
+
+  { "sector": "تقني", "entity": "STC Cloud", "data": "استضافة موقع", "allowed": true },
+  { "sector": "تقني", "entity": "STC Cloud", "data": "استضافة بدون دفع", "allowed": false },
+  { "sector": "تقني", "entity": "Google", "data": "إنشاء حساب", "allowed": true },
+  { "sector": "تقني", "entity": "Google", "data": "حساب بدون تحقق", "allowed": false },
+
+  { "sector": "سكني", "entity": "إيجار", "data": "عقد إيجار", "allowed": true },
+  { "sector": "سكني", "entity": "إيجار", "data": "عقد بدون هوية", "allowed": false },
+  { "sector": "سكني", "entity": "بلدي", "data": "رخصة بناء", "allowed": true },
+  { "sector": "سكني", "entity": "بلدي", "data": "رخصة بدون مخطط", "allowed": false }
+
 ]
