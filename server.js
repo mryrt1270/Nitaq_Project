@@ -1,11 +1,23 @@
 // ================== SETUP ==================
 const express = require('express');
-const app = express(); // 🔥 هذا السطر الناقص
-const PORT = process.env.PORT || 30000;
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); // 🔥 فوق
 const path = require('path');
-const session = require('express-session');
+const session = require('express-session'); // 🔥 فوق
 const fs = require('fs');
+
+const app = express();
+
+// 🔥 بعدها تستخدمهم
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'nitaq-secret',
+    resave: false,
+    saveUninitialized: false
+}));
+
+const PORT = process.env.PORT || 30000;
 
 
 // ================== FILE STORAGE ==================
