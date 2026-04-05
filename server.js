@@ -579,6 +579,59 @@ app.get('/timeline', requireLogin, (req, res) => {
     });
 });
 
+
+const sectors = ["مالي","حكومي","صحي","تعليمي","خدمات","عقاري","مركبات","سفر","تجاري"];
+
+const entities = [
+  "بنك الراجحي","بنك الأهلي","بنك الرياض","بنك البلاد",
+  "أبشر","وزارة الداخلية","وزارة العدل","وزارة الصحة","وزارة التعليم",
+  "شركة الكهرباء","شركة المياه","STC","زين",
+  "المرور","الجوازات","وزارة التجارة","كاتب عدل"
+];
+
+const actionsAllowed = [
+  "فتح حساب","طلب خدمة","تسجيل","إصدار","تجديد","تحويل","توثيق"
+];
+
+const actionsDenied = [
+  "بدون هوية","بدون شرط","بدون تحقق","بدون موافقة","بدون مستند"
+];
+
+let generated = [];
+let id = 1;
+
+for (let s of sectors) {
+  for (let e of entities) {
+    for (let a of actionsAllowed) {
+      generated.push({
+        id: id++,
+        sector: s,
+        entity: e,
+        data: a,
+        allowed: true
+      });
+    }
+  }
+}
+
+for (let s of sectors) {
+  for (let e of entities) {
+    for (let a of actionsDenied) {
+      generated.push({
+        id: id++,
+        sector: s,
+        entity: e,
+        data: a,
+        allowed: false
+      });
+    }
+  }
+}
+
+fs.writeFileSync('./data/rules.json', JSON.stringify(generated, null, 2));
+
+console.log("🔥 تم إنشاء", generated.length, "قاعدة");
+
 // ================== START ==================
 
 app.listen(PORT, () => {

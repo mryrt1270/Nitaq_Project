@@ -118,7 +118,35 @@
 
         <div class="verify-field">
             <label>المستند المطلوب</label>
-            <input type="text" id="dataInput" placeholder="مثال: تعريف بالراتب">
+
+            <select id="dataInput">
+                <option value="">اختر المستند</option>
+
+                <option>تعريف راتب</option>
+                <option>كشف حساب</option>
+                <option>إثبات دخل</option>
+                <option>الهوية الوطنية</option>
+                <option>سجل الأسرة</option>
+                <option>شهادة ميلاد</option>
+                <option>تقرير طبي</option>
+                <option>إجازة مرضية</option>
+                <option>شهادة دراسية</option>
+                <option>سجل أكاديمي</option>
+                <option>عقد عمل</option>
+                <option>شهادة خبرة</option>
+                <option>جواز سفر</option>
+                <option>تأشيرة</option>
+                <option>صك ملكية</option>
+                <option>عقد إيجار</option>
+                <option>فاتورة كهرباء</option>
+                <option>رخصة قيادة</option>
+                <option>استمارة سيارة</option>
+                <option>تأمين مركبة</option>
+
+                <option value="other">أخرى</option>
+            </select>
+
+            <input type="text" id="otherInput" placeholder="اكتب المستند" style="display:none;">
         </div>
 
         <button class="verify-btn" onclick="checkPermission()">تحقق الآن</button>
@@ -126,39 +154,56 @@
 </section>
 
 <script>
-const RULES = <%- JSON.stringify(rules || []) %>;
+
+const RULES = <%- JSON.stringify(rules) %>;
 
 const sectorSelect = document.getElementById('sectorSelect');
 const entitySelect = document.getElementById('entitySelect');
+const dataInput = document.getElementById('dataInput');
+const otherInput = document.getElementById('otherInput');
 
+// sectors
 const sectors = [...new Set(RULES.map(r => r.sector))];
 
 sectors.forEach(sec => {
-    const opt = document.createElement('option');
-    opt.value = sec;
-    opt.textContent = sec;
-    sectorSelect.appendChild(opt);
+  const opt = document.createElement('option');
+  opt.value = sec;
+  opt.textContent = sec;
+  sectorSelect.appendChild(opt);
 });
 
+// entities
 sectorSelect.addEventListener('change', () => {
-    entitySelect.innerHTML = '<option value="">اختر الجهة</option>';
+  entitySelect.innerHTML = '<option value="">اختر الجهة</option>';
 
-    const entities = [...new Set(
-        RULES.filter(r => r.sector === sectorSelect.value).map(r => r.entity)
-    )];
+  const entities = [...new Set(
+    RULES.filter(r => r.sector === sectorSelect.value).map(r => r.entity)
+  )];
 
-    entities.forEach(ent => {
-        const opt = document.createElement('option');
-        opt.value = ent;
-        opt.textContent = ent;
-        entitySelect.appendChild(opt);
-    });
+  entities.forEach(ent => {
+    const opt = document.createElement('option');
+    opt.value = ent;
+    opt.textContent = ent;
+    entitySelect.appendChild(opt);
+  });
+});
+
+// other input (مرة وحدة فقط)
+dataInput.addEventListener('change', () => {
+  if (dataInput.value === "other") {
+    otherInput.style.display = "block";
+  } else {
+    otherInput.style.display = "none";
+  }
 });
 
 async function checkPermission(){
     const sector = sectorSelect.value;
     const entity = entitySelect.value;
-    const data = document.getElementById('dataInput').value.trim();
+
+    let data = dataInput.value === "other"
+      ? otherInput.value
+      : dataInput.value;
 
     if(!sector || !entity || !data){
         alert("أكمل جميع الحقول");
@@ -175,6 +220,7 @@ async function checkPermission(){
     const query = new URLSearchParams(result).toString();
     window.location.href = `/secret?${query}`;
 }
+
 </script>
 
 </body>
